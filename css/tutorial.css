@@ -1,0 +1,21 @@
+/* 黒石 */
+  .kuro:before {
+    color: black;
+    content: "●";
+}
+/* 白石 */
+.shiro:before {
+    color: white;
+    content: "●";
+}
+/* 盤全体を黒色にする */
+.board {
+  background-color: black;
+}
+/* マス１つ１つを緑色の正方形にする */
+.board tr td {
+  background-color: seagreen;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+}
