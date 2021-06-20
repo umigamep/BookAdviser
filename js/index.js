@@ -266,17 +266,24 @@ class OthelloBoard {
         }
     }
     undo(){
-        this.nowIndex -= 1;
-        this.nowTurn = this.historyOfnowTurn[this.nowIndex];
-        this.playerBoard = this.historyOfplayerBoard[this.nowIndex];
-        this.opponentBoard = this.historyOfopponentBoard[this.nowIndex];
-        this.isGameFinished = false;
+        alert("undo");
+        if(this.nowIndex>=1){
+            this.nowIndex -= 1;
+            this.nowTurn = this.historyOfnowTurn[this.nowIndex];
+            this.playerBoard = this.historyOfplayerBoard[this.nowIndex];
+            this.opponentBoard = this.historyOfopponentBoard[this.nowIndex];
+            this.isGameFinished = false;
+        }
     }
 }
 
 window.onload = function(){
     let othelloboard = new OthelloBoard();
+    
+    //tableの要素をとってくる
     var $tableElements = document.getElementsByTagName('td');
+    
+    //石を配置する
     displayBoard();
     //tableの全てにclickイベントを付与する
     for (let $i=0; $i < $tableElements.length; $i++) {
@@ -292,6 +299,12 @@ window.onload = function(){
     function putOthello(index) {
         let mask = 0x8000000000000000n;
         othelloboard.Put(mask >> BigInt(index));
+    }
+    var undobutton = document.getElementById("undobutton");
+    undobutton.addEventListener('click',alert("button"));
+    function undo(){
+        othelloboard.undo();
+        displayBoard();
     }
     function displayBoard(){
         let mask = 0x8000000000000000n;

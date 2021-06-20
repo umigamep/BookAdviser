@@ -8,19 +8,23 @@
     color: white;
     content: "●";
 }
+
 /* 盤全体を黒色にする */
 .board {
   background-color: black;
+  border: none;/*動かない*/
 }
 /* マス１つ１つを緑色の正方形にする */
 .board tr td {
   background-color: seagreen;
-  width: 32px;
-  height: 32px;
-  line-height: 32px;
-  
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  vertical-align: center;
+  font-size: 350%;
+  cursor: pointer;
 }
-td {
-  text-align: "center";
-  font-size: 80%;
+th {
+  background-color: white;
 }
