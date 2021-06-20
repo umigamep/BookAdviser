@@ -154,6 +154,7 @@ class OthelloBoard {
      * @return 反転箇所にフラグが立っている64ビット
      */
     transfer(put, k) {
+
         switch (k) {
         case 0: //上
             return (put << 8n) & 0xffffffffffffff00n;
@@ -180,23 +181,23 @@ class OthelloBoard {
  */
     reverse(put) {
         //着手した場合のボードを生成
-        let rev = 0;
+        let rev = 0n;
         for(let k=0; k < 8; ++k) {
             let rev_ = 0n;
             var mask = this.transfer(put, k);
-            while ((mask != 0) & ((mask & this.opponentBoard) != 0)) {
+            while ((mask != 0n) & ((mask & this.opponentBoard) != 0n)) {
                 rev_ |= mask;
-                mask = this.transfer(put, k);
+                mask = this.transfer(mask, k);
             }
-            if ((mask & this.playerBoard) != 0) {
+            if ((mask & this.playerBoard) != 0n) {
                 rev |= rev_;
             }
         }
         //反転する
-        this.playerBoard   ^= put | rev
-        this.opponentBoard ^= rev
+        this.playerBoard   ^= put | rev;
+        this.opponentBoard ^= rev;
         //現在何手目かを更新
-        this.nowIndex = this.nowIndex + 1
+        this.nowIndex = this.nowIndex + 1;
     }
 
     /*
@@ -276,7 +277,7 @@ class OthelloBoard {
 window.onload = function(){
     let othelloboard = new OthelloBoard();
     var $tableElements = document.getElementsByTagName('td');
-  
+    displayBoard();
     //tableの全てにclickイベントを付与する
     for (let $i=0; $i < $tableElements.length; $i++) {
       $tableElements[$i].addEventListener('click', function(){
@@ -285,12 +286,32 @@ window.onload = function(){
         //クリックした位置の取得
         let index = tableElements.indexOf(this);
         putOthello(index);
+        displayBoard();
       });
     }
     function putOthello(index) {
         let mask = 0x8000000000000000n;
         othelloboard.Put(mask >> BigInt(index));
-        $tableElements[index].className = "kuro";
+    }
+    function displayBoard(){
+        let mask = 0x8000000000000000n;
+        let playercolor;
+        let opponentcolor;
+        if(othelloboard.nowTurn==othelloboard.BLACK_TURN){
+            playercolor = "kuro";
+            opponentcolor = "shiro"
+        } else {
+            playercolor = "shiro";
+            opponentcolor = "kuro"
+        }
+        for(let i = 0; i < 64; ++i){
+            if((othelloboard.playerBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
+                $tableElements[i].className = playercolor;
+            }
+            if((othelloboard.opponentBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
+                $tableElements[i].className = opponentcolor;
+            }
+        }
     }
 }
 

@@ -1,4 +1,3 @@
-
 class OthelloBoard {
     constructor(){
         //MARK: Constant
@@ -27,25 +26,25 @@ class OthelloBoard {
         case "A":
             break
         case "B":
-            mask = mask >> 1
+            mask = mask >> 1n
         case "C":
-            mask = mask >> 2
+            mask = mask >> 2n
         case "D":
-            mask = mask >> 3
+            mask = mask >> 3n
         case "E":
-            mask = mask >> 4
+            mask = mask >> 4n
         case "F":
-            mask = mask >> 5
+            mask = mask >> 5n
         case "G":
-            mask = mask >> 6
+            mask = mask >> 6n
         case "H":
-            mask = mask >> 7
+            mask = mask >> 7n
         default:
             break
         }
         // Y方向へのシフト
         let intY = Int(y)
-        mask = mask >> ( (intY - 1) * 8)
+        mask = mask >> BigInt( (intY - 1) * 8)
     
         return mask
     }
@@ -67,82 +66,82 @@ class OthelloBoard {
         //8方向チェック
         // ・一度に返せる石は最大6つ ・高速化のためにforを展開(ほぼ意味ないけどw)
         //左
-        tmp = horizontalWatchBoard & (this.playerBoard << 1);
-        tmp |= horizontalWatchBoard & (tmp << 1);
-        tmp |= horizontalWatchBoard & (tmp << 1);
-        tmp |= horizontalWatchBoard & (tmp << 1);
-        tmp |= horizontalWatchBoard & (tmp << 1);
-        tmp |= horizontalWatchBoard & (tmp << 1);
-        legalBoard = blankBoard & (tmp << 1);
+        tmp = horizontalWatchBoard & (this.playerBoard << 1n);
+        tmp |= horizontalWatchBoard & (tmp << 1n);
+        tmp |= horizontalWatchBoard & (tmp << 1n);
+        tmp |= horizontalWatchBoard & (tmp << 1n);
+        tmp |= horizontalWatchBoard & (tmp << 1n);
+        tmp |= horizontalWatchBoard & (tmp << 1n);
+        legalBoard = blankBoard & (tmp << 1n);
     
         //右
-        tmp = horizontalWatchBoard & (this.playerBoard >> 1);
-        tmp |= horizontalWatchBoard & (tmp >> 1);
-        tmp |= horizontalWatchBoard & (tmp >> 1);
-        tmp |= horizontalWatchBoard & (tmp >> 1);
-        tmp |= horizontalWatchBoard & (tmp >> 1);
-        tmp |= horizontalWatchBoard & (tmp >> 1);
-        legalBoard |= blankBoard & (tmp >> 1);
+        tmp = horizontalWatchBoard & (this.playerBoard >> 1n);
+        tmp |= horizontalWatchBoard & (tmp >> 1n);
+        tmp |= horizontalWatchBoard & (tmp >> 1n);
+        tmp |= horizontalWatchBoard & (tmp >> 1n);
+        tmp |= horizontalWatchBoard & (tmp >> 1n);
+        tmp |= horizontalWatchBoard & (tmp >> 1n);
+        legalBoard |= blankBoard & (tmp >> 1n);
     
         //上
-        tmp = verticalWatchBoard & (this.playerBoard << 8);
-        tmp |= verticalWatchBoard & (tmp << 8);
-        tmp |= verticalWatchBoard & (tmp << 8);
-        tmp |= verticalWatchBoard & (tmp << 8);
-        tmp |= verticalWatchBoard & (tmp << 8);
-        tmp |= verticalWatchBoard & (tmp << 8);
-        legalBoard |= blankBoard & (tmp << 8);
+        tmp = verticalWatchBoard & (this.playerBoard << 8n);
+        tmp |= verticalWatchBoard & (tmp << 8n);
+        tmp |= verticalWatchBoard & (tmp << 8n);
+        tmp |= verticalWatchBoard & (tmp << 8n);
+        tmp |= verticalWatchBoard & (tmp << 8n);
+        tmp |= verticalWatchBoard & (tmp << 8n);
+        legalBoard |= blankBoard & (tmp << 8n);
     
         //下
-        tmp = verticalWatchBoard & (this.playerBoard >> 8);
-        tmp |= verticalWatchBoard & (tmp >> 8);
-        tmp |= verticalWatchBoard & (tmp >> 8);
-        tmp |= verticalWatchBoard & (tmp >> 8);
-        tmp |= verticalWatchBoard & (tmp >> 8);
-        tmp |= verticalWatchBoard & (tmp >> 8);
-        legalBoard |= blankBoard & (tmp >> 8);
+        tmp = verticalWatchBoard & (this.playerBoard >> 8n);
+        tmp |= verticalWatchBoard & (tmp >> 8n);
+        tmp |= verticalWatchBoard & (tmp >> 8n);
+        tmp |= verticalWatchBoard & (tmp >> 8n);
+        tmp |= verticalWatchBoard & (tmp >> 8n);
+        tmp |= verticalWatchBoard & (tmp >> 8n);
+        legalBoard |= blankBoard & (tmp >> 8n);
     
         //右斜め上
-        tmp = allSideWatchBoard & (board.playerBoard << 7);
-        tmp |= allSideWatchBoard & (tmp << 7);
-        tmp |= allSideWatchBoard & (tmp << 7);
-        tmp |= allSideWatchBoard & (tmp << 7);
-        tmp |= allSideWatchBoard & (tmp << 7);
-        tmp |= allSideWatchBoard & (tmp << 7);
-        legalBoard |= blankBoard & (tmp << 7);
+        tmp = allSideWatchBoard & (this.playerBoard << 7n);
+        tmp |= allSideWatchBoard & (tmp << 7n);
+        tmp |= allSideWatchBoard & (tmp << 7n);
+        tmp |= allSideWatchBoard & (tmp << 7n);
+        tmp |= allSideWatchBoard & (tmp << 7n);
+        tmp |= allSideWatchBoard & (tmp << 7n);
+        legalBoard |= blankBoard & (tmp << 7n);
     
         //左斜め上
-        tmp = allSideWatchBoard & (this.playerBoard << 9);
-        tmp |= allSideWatchBoard & (tmp << 9);
-        tmp |= allSideWatchBoard & (tmp << 9);
-        tmp |= allSideWatchBoard & (tmp << 9);
-        tmp |= allSideWatchBoard & (tmp << 9);
-        tmp |= allSideWatchBoard & (tmp << 9);
-        legalBoard |= blankBoard & (tmp << 9);
+        tmp = allSideWatchBoard & (this.playerBoard << 9n);
+        tmp |= allSideWatchBoard & (tmp << 9n);
+        tmp |= allSideWatchBoard & (tmp << 9n);
+        tmp |= allSideWatchBoard & (tmp << 9n);
+        tmp |= allSideWatchBoard & (tmp << 9n);
+        tmp |= allSideWatchBoard & (tmp << 9n);
+        legalBoard |= blankBoard & (tmp << 9n);
     
         //右斜め下
-        tmp = allSideWatchBoard & (this.playerBoard >> 9);
-        tmp |= allSideWatchBoard & (tmp >> 9);
-        tmp |= allSideWatchBoard & (tmp >> 9);
-        tmp |= allSideWatchBoard & (tmp >> 9);
-        tmp |= allSideWatchBoard & (tmp >> 9);
-        tmp |= allSideWatchBoard & (tmp >> 9);
-        legalBoard |= blankBoard & (tmp >> 9);
+        tmp = allSideWatchBoard & (this.playerBoard >> 9n);
+        tmp |= allSideWatchBoard & (tmp >> 9n);
+        tmp |= allSideWatchBoard & (tmp >> 9n);
+        tmp |= allSideWatchBoard & (tmp >> 9n);
+        tmp |= allSideWatchBoard & (tmp >> 9n);
+        tmp |= allSideWatchBoard & (tmp >> 9n);
+        legalBoard |= blankBoard & (tmp >> 9n);
     
         //左斜め下
-        tmp = allSideWatchBoard & (this.playerBoard >> 7);
-        tmp |= allSideWatchBoard & (tmp >> 7);
-        tmp |= allSideWatchBoard & (tmp >> 7);
-        tmp |= allSideWatchBoard & (tmp >> 7);
-        tmp |= allSideWatchBoard & (tmp >> 7);
-        tmp |= allSideWatchBoard & (tmp >> 7);
-        legalBoard |= blankBoard & (tmp >> 7);
+        tmp = allSideWatchBoard & (this.playerBoard >> 7n);
+        tmp |= allSideWatchBoard & (tmp >> 7n);
+        tmp |= allSideWatchBoard & (tmp >> 7n);
+        tmp |= allSideWatchBoard & (tmp >> 7n);
+        tmp |= allSideWatchBoard & (tmp >> 7n);
+        tmp |= allSideWatchBoard & (tmp >> 7n);
+        legalBoard |= blankBoard & (tmp >> 7n);
     
         return legalBoard;
     }
     canPut (put){
         // 着手可能なマスにフラグが立っている合法手ボードを生成
-        let legalBoard = makeLegalBoard();
+        let legalBoard = this.makeLegalBoard();
         // 今回の着手が、その合法手ボードに含まれれば着手可能
         return (put & legalBoard) == put;
     }
@@ -153,23 +152,24 @@ class OthelloBoard {
      * @return 反転箇所にフラグが立っている64ビット
      */
     transfer(put, k) {
+
         switch (k) {
         case 0: //上
-            return (put << 8) & 0xffffffffffffff00n;
+            return (put << 8n) & 0xffffffffffffff00n;
         case 1: //右上
-            return (put << 7) & 0x7f7f7f7f7f7f7f00n;
+            return (put << 7n) & 0x7f7f7f7f7f7f7f00n;
         case 2: //右
-            return (put >> 1) & 0x7f7f7f7f7f7f7f7fn;
+            return (put >> 1n) & 0x7f7f7f7f7f7f7f7fn;
         case 3: //右下
-            return (put >> 9) & 0x007f7f7f7f7f7f7fn;
+            return (put >> 9n) & 0x007f7f7f7f7f7f7fn;
         case 4: //下
-            return (put >> 8) & 0x00ffffffffffffffn;
+            return (put >> 8n) & 0x00ffffffffffffffn;
         case 5: //左下
-            return (put >> 7) & 0x00fefefefefefefen;
+            return (put >> 7n) & 0x00fefefefefefefen;
         case 6: //左
-            return (put << 1) & 0xfefefefefefefefen;
+            return (put << 1n) & 0xfefefefefefefefen;
         case 7: //左上
-            return (put << 9) & 0xfefefefefefefe00n;
+            return (put << 9n) & 0xfefefefefefefe00n;
         default:
             return 0n;
         }
@@ -179,23 +179,23 @@ class OthelloBoard {
  */
     reverse(put) {
         //着手した場合のボードを生成
-        let rev = 0;
-        for(k=0; k < 8; ++k) {
-            let rev_ = 0;
-            var mask = transfer(put, k);
-            while ((mask != 0) & ((mask & opponentBoard) != 0)) {
+        let rev = 0n;
+        for(let k=0; k < 8; ++k) {
+            let rev_ = 0n;
+            var mask = this.transfer(put, k);
+            while ((mask != 0n) & ((mask & this.opponentBoard) != 0n)) {
                 rev_ |= mask;
-                mask = transfer(put, k);
+                mask = this.transfer(mask, k);
             }
-            if ((mask & playerBoard) != 0) {
+            if ((mask & this.playerBoard) != 0n) {
                 rev |= rev_;
             }
         }
         //反転する
-        this.playerBoard   ^= put | rev
-        this.opponentBoard ^= rev
+        this.playerBoard   ^= put | rev;
+        this.opponentBoard ^= rev;
         //現在何手目かを更新
-        this.nowIndex = this.nowIndex + 1
+        this.nowIndex = this.nowIndex + 1;
     }
 
     /*
@@ -204,7 +204,7 @@ class OthelloBoard {
      */
     isPass(){
         // 手番側の合法手ボードを生成
-        let playerLegalBoard = makeLegalBoard();
+        let playerLegalBoard = this.makeLegalBoard();
         // 手番側だけがパスの場合    
         return playerLegalBoard == 0x0000000000000000n;
     }

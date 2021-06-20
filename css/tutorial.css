@@ -15,7 +15,12 @@
 /* マス１つ１つを緑色の正方形にする */
 .board tr td {
   background-color: seagreen;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  
+}
+td {
+  text-align: "center";
+  font-size: 80%;
 }
