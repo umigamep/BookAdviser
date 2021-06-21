@@ -23,35 +23,103 @@ class OthelloBoard {
         this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
 
     }
+    new(){
+        //MARK: Constant
+        this.BLACK_TURN = 100;
+        this.WHITE_TURN = -100;
+        this.nowTurn       = this.BLACK_TURN;
+        this.nowIndex      = 0;//何手打ち終えたか
+        this.isGameFinished = false;
+
+        // 一般的な初期配置を指定
+        this.playerBoard   = 0x0000000810000000n;
+        this.opponentBoard = 0x0000001008000000n;
+
+        //履歴を保持
+        this.historyOfnowTurn = {};
+        this.historyOfplayerBoard = {};
+        this.historyOfopponentBoard = {};
+        this.historyOfPut = {};
+        this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
+        this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
+        this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
+    }
     //座標をBitに変換
     coordinateToBit(x, y) {
         let mask= 0x8000000000000000n;
         // X方向へのシフト
         switch (x) {
         case "A":
-            break
+            break;
         case "B":
-            mask = mask >> 1n
+            mask = mask >> 1n;
+            break;
         case "C":
-            mask = mask >> 2n
+            mask = mask >> 2n;
+            break;
         case "D":
-            mask = mask >> 3n
+            mask = mask >> 3n;
+            break;
         case "E":
-            mask = mask >> 4n
+            mask = mask >> 4n;
+            break;
         case "F":
-            mask = mask >> 5n
+            mask = mask >> 5n;
+            break;
         case "G":
-            mask = mask >> 6n
+            mask = mask >> 6n;
+            break;
         case "H":
-            mask = mask >> 7n
+            mask = mask >> 7n;
+            break;
         default:
             break
         }
+        
         // Y方向へのシフト
-        let intY = Int(y)
-        mask = mask >> BigInt( (intY - 1) * 8)
-    
+        let IntY = Number(y);
+        mask = mask >> BigInt((IntY - 1) * 8);
         return mask
+    }
+    bitTOCoordinate(bit) {
+        let mask= 0x8000000000000000n;
+        let k;
+        for(let i = 0; i < 64; ++i){
+            if((mask&bit) == mask){
+                k = i;
+                break;
+            }
+            mask = mask >> 1n;
+        }
+        let row = (k-k%8)/8+1;
+        let col;
+        switch(k%8){
+            case 0:
+                col = "A";
+                break;
+            case 1:
+                col = "B";
+                break;
+            case 2:
+                col = "C";
+                break;
+            case 3:
+                col = "D";
+                break;
+            case 4:
+                col = "E";
+                break;
+            case 5:
+                col = "F";
+                break;
+            case 6:
+                col = "G";
+                break;
+            default:
+                col = "H"
+                break;
+        }
+        return col+String(row);
     }
     //合法手を作成
     makeLegalBoard(){
@@ -279,6 +347,13 @@ class OthelloBoard {
             }
         }
     }
+    playline(line){
+        this.new();
+        let l = line.length/2;
+        for(let i = 0; i < l; ++i){
+            this.Put(this.coordinateToBit(line.slice(2*i,2*i+1),line.slice(2*i+1,2*i+2)));
+        }
+    }
     undo(){
         if(this.nowIndex>=1){
             this.nowIndex -= 1;
@@ -396,7 +471,21 @@ class OthelloBoard {
         }
         return maxvalue;
     }
-    
+    eval(){
+        let mask= 0x8000000000000000n;
+        let ret = {};
+        let legal = this.makeLegalBoard();
+        for(let i = 0; i < 64; ++i){
+            if((mask&legal) == mask){
+                let coordinate = this.bitTOCoordinate(mask);
+                this.Put(mask);
+                ret[coordinate] = this.solve();
+                this.undo()
+            }
+            mask = mask >> 1n;
+        }
+        return ret;
+    }
 
 }
 
@@ -429,11 +518,28 @@ window.onload = function(){
         displayBoard();
     });
 
+    var newbutton = document.getElementById("newbutton");
+    newbutton.addEventListener('click',function(){
+        othelloboard.new();
+        displayBoard();
+    })
+
     var solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
-        alert(othelloboard.solve());
-        displayBoard();
+        let dict = othelloboard.eval();
+        for(let key in dict){
+            document.getElementById(key).className="evalmode";
+            document.getElementById(key).innerHTML=(2*dict[key]-64)*othelloboard.nowTurn/othelloboard.BLACK_TURN;
+            
+        }
     });
+
+    var playlinebutton = document.getElementById("playlinebutton");
+    playlinebutton.addEventListener('click',function(){
+        let line = prompt("棋譜を入力してください","F5");
+        othelloboard.playline(line);
+        displayBoard();
+    })
     
     function displayBoard(){
         let mask = 0x8000000000000000n;
@@ -454,6 +560,7 @@ window.onload = function(){
             } else{
                 $tableElements[i].className = "";
             }
+            $tableElements[i].innerHTML = "";
         }
     }
 }

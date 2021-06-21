@@ -1,30 +1,42 @@
-/* 黒石 */
-  .kuro:before {
-    color: black;
-    content: "●";
-}
-/* 白石 */
-.shiro:before {
-    color: white;
-    content: "●";
-}
-
 /* 盤全体を黒色にする */
 .board {
   background-color: black;
   border: none;/*動かない*/
 }
 /* マス１つ１つを緑色の正方形にする */
-.board tr td {
+.board tr td{
   background-color: seagreen;
-  width: 60px;
-  height: 60px;
-  line-height: 60px;
+  width: 4rem;
+  height: 4rem;
   text-align: center;
   vertical-align: center;
-  font-size: 350%;
+  font-size: 1.4rem;
   cursor: pointer;
 }
 th {
   background-color: white;
+}
+/* 黒石 */
+.kuro:before {
+  color: black;
+  content: "●";
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  vertical-align: center;
+  font-size: 3.0rem;
+}
+/* 白石 */
+.shiro:before {
+  color: white;
+  content: "●";
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  vertical-align: center;
+  font-size: 2.8rem;
+}
+.evalmode{
+  color: blue;
+  font-size: 0.3rem;/*これは効いてないっぽい*/
 }
