@@ -22,9 +22,10 @@ th {
   content: "●";
   width: 4rem;
   height: 4rem;
+  line-height: 3rem;
   text-align: center;
   vertical-align: center;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
 }
 /* 白石 */
 .shiro:before {
@@ -32,9 +33,10 @@ th {
   content: "●";
   width: 4rem;
   height: 4rem;
+  line-height: 3rem;
   text-align: center;
   vertical-align: center;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
 }
 .evalmode{
   color: blue;
