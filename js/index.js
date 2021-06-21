@@ -526,11 +526,14 @@ window.onload = function(){
 
     var solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
-        let dict = othelloboard.eval();
-        for(let key in dict){
-            document.getElementById(key).className="evalmode";
-            document.getElementById(key).innerHTML=(2*dict[key]-64)*othelloboard.nowTurn/othelloboard.BLACK_TURN;
-            
+        if(othelloboard.nowIndex>=50){
+            let dict = othelloboard.eval();
+            for(let key in dict){
+                document.getElementById(key).className="evalmode";
+                document.getElementById(key).innerHTML=(2*dict[key]-64)*othelloboard.nowTurn/othelloboard.BLACK_TURN;    
+            }
+        } else {
+            alert("完全読みは50手目以降で利用可能です");
         }
     });
 
