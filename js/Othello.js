@@ -21,35 +21,103 @@ class OthelloBoard {
         this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
 
     }
+    new(){
+        //MARK: Constant
+        this.BLACK_TURN = 100;
+        this.WHITE_TURN = -100;
+        this.nowTurn       = this.BLACK_TURN;
+        this.nowIndex      = 0;//何手打ち終えたか
+        this.isGameFinished = false;
+
+        // 一般的な初期配置を指定
+        this.playerBoard   = 0x0000000810000000n;
+        this.opponentBoard = 0x0000001008000000n;
+
+        //履歴を保持
+        this.historyOfnowTurn = {};
+        this.historyOfplayerBoard = {};
+        this.historyOfopponentBoard = {};
+        this.historyOfPut = {};
+        this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
+        this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
+        this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
+    }
     //座標をBitに変換
     coordinateToBit(x, y) {
         let mask= 0x8000000000000000n;
         // X方向へのシフト
         switch (x) {
         case "A":
-            break
+            break;
         case "B":
-            mask = mask >> 1n
+            mask = mask >> 1n;
+            break;
         case "C":
-            mask = mask >> 2n
+            mask = mask >> 2n;
+            break;
         case "D":
-            mask = mask >> 3n
+            mask = mask >> 3n;
+            break;
         case "E":
-            mask = mask >> 4n
+            mask = mask >> 4n;
+            break;
         case "F":
-            mask = mask >> 5n
+            mask = mask >> 5n;
+            break;
         case "G":
-            mask = mask >> 6n
+            mask = mask >> 6n;
+            break;
         case "H":
-            mask = mask >> 7n
+            mask = mask >> 7n;
+            break;
         default:
             break
         }
+        
         // Y方向へのシフト
-        let intY = Int(y)
-        mask = mask >> BigInt( (intY - 1) * 8)
-    
+        let IntY = Number(y);
+        mask = mask >> BigInt((IntY - 1) * 8);
         return mask
+    }
+    bitTOCoordinate(bit) {
+        let mask= 0x8000000000000000n;
+        let k;
+        for(let i = 0; i < 64; ++i){
+            if((mask&bit) == mask){
+                k = i;
+                break;
+            }
+            mask = mask >> 1n;
+        }
+        let row = (k-k%8)/8+1;
+        let col;
+        switch(k%8){
+            case 0:
+                col = "A";
+                break;
+            case 1:
+                col = "B";
+                break;
+            case 2:
+                col = "C";
+                break;
+            case 3:
+                col = "D";
+                break;
+            case 4:
+                col = "E";
+                break;
+            case 5:
+                col = "F";
+                break;
+            case 6:
+                col = "G";
+                break;
+            default:
+                col = "H"
+                break;
+        }
+        return col+String(row);
     }
     //合法手を作成
     makeLegalBoard(){
@@ -220,10 +288,21 @@ class OthelloBoard {
         //色の入れ替え
         this.nowTurn *= -1;
     }
+    bitCount(someboard){
+        let mask= 0x8000000000000000n;
+        let ret = 0
+        for(let i = 0; i < 64; ++i){
+            if((mask&someboard)==mask){
+                ret += 1;
+            }
+            mask = mask >> 1n;
+        }
+        return ret;
+    }
     getResult(){
         //石数を取得
-        let blackScore = bitCount(playerBoard);
-        let whiteScore = bitCount(opponentBoard)
+        let blackScore = this.bitCount(playerBoard);
+        let whiteScore = this.bitCount(opponentBoard)
         if (this.nowTurn == this.WHITE_TURN) {
             let tmp = blackScore;
             blackScore = whiteScore;
@@ -266,6 +345,28 @@ class OthelloBoard {
             }
         }
     }
+    playline(line){
+        this.new();
+        let l = line.length/2;
+        for(let i = 0; i < l; ++i){
+            this.Put(this.coordinateToBit(line.slice(2*i,2*i+1),line.slice(2*i+1,2*i+2)));
+        }
+    }
+    /*実装したがid取得が面倒で使ってない*/
+    edit(mask,color){
+        /*color:Black = 100, White = -100, Green = 0*/
+        if(this.nowTurn==color){
+            this.playerBoard = mask|this.playerBoard;
+        } else if(this.nowTurn==-color){
+            this.opponentBoard = mask|this.opponentBoard;
+        } else {
+            this.playerBoard = (~mask)&this.playerBoard;
+            this.opponentBoard = (~mask)&this.opponentBoard;
+        }
+    }
+    blankcount(){
+        return this.bitCount(~(this.playerBoard | this.opponentBoard));
+    }
     undo(){
         if(this.nowIndex>=1){
             this.nowIndex -= 1;
@@ -275,4 +376,128 @@ class OthelloBoard {
             this.isGameFinished = false;
         }
     }
+    solve(){
+        //ゲーム終了なら、黒の石数を返す。
+        if(this.isGameFinished){
+            if(this.nowTurn==this.BLACK_TURN){
+                return this.bitCount(this.playerBoard);
+            } else {
+                return this.bitCount(this.opponentBoard);
+            }
+        }
+        let legal = this.makeLegalBoard();
+        let mask= 0x8000000000000000n;
+        //黒番なら、返り値＝黒石を最大化する手を選べば良い
+        if(this.nowTurn==this.BLACK_TURN){
+            let maxvalue = -100;
+            for(let i = 0; i < 64; ++i){
+                //合法手の評価を確認
+                if((mask & legal)==mask){
+                    this.Put(mask);
+                    if(this.nowTurn==this.BLACK_TURN){
+                        maxvalue = Math.max(maxvalue,this.solve());//めんどくさくてサボってる。
+                    } else {
+                        //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
+                        maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue));
+                    }
+                    this.undo();
+                }
+                mask = mask >> 1n;
+            }
+            return maxvalue;
+        } else {
+            //今が白番の場合
+            let minvalue = 100;
+            for(let i = 0; i < 64; ++i){
+                if((mask & legal)==mask){
+                    this.Put(mask);
+                    if(this.nowTurn==this.BLACK_TURN){
+                        //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
+                        minvalue = Math.min(minvalue,this.betasearch(minvalue));
+                    } else {
+                        minvalue = Math.min(minvalue,this.solve());//同じくサボり
+                    }
+                    this.undo();
+                }
+                mask = mask >> 1n;
+            }
+            return minvalue;
+        }
+    }
+    //alphasearchは常に白番。直前の黒番でmaxvelueが最低保証されているので、それ以下の応手が見つかると無意味になる。
+    alphasearch(maxvalue){
+        if(this.isGameFinished){
+            if(this.nowTurn==this.BLACK_TURN){
+                return this.bitCount(this.playerBoard);
+            } else {
+                return this.bitCount(this.opponentBoard);
+            }
+        }
+        let legal = this.makeLegalBoard();
+        let mask= 0x8000000000000000n;
+        let minvalue = 100;
+        for(let i = 0; i < 64; ++i){
+            if((mask & legal)==mask){
+                this.Put(mask);
+                if(this.nowTurn==this.BLACK_TURN){
+                    //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
+                    minvalue = Math.min(minvalue,this.betasearch(minvalue));
+                } else {
+                    minvalue = Math.min(minvalue,this.solve());//同じくサボり
+                }
+                this.undo();
+                if(minvalue < maxvalue){
+                    return minvalue;//これで実質棄却。
+                }
+            }
+            mask = mask >> 1n;
+        }
+        return minvalue;
+    }
+    //betasearchは常に黒番。直前の白番でminvalueが最低保証されているので、それ以上の応手が見つかると無意味になる。
+    betasearch(minvalue){
+        if(this.isGameFinished){
+            if(this.nowTurn==this.BLACK_TURN){
+                return this.bitCount(this.playerBoard);
+            } else {
+                return this.bitCount(this.opponentBoard);
+            }
+        }
+        let legal = this.makeLegalBoard();
+        let mask= 0x8000000000000000n;
+        let maxvalue = -100;
+        for(let i = 0; i < 64; ++i){
+            if((mask & legal)==mask){
+                this.Put(mask);
+                if(this.nowTurn==this.BLACK_TURN){
+                    maxvalue = Math.max(maxvalue,this.solve());//めんどくさくてサボってる。
+                } else {
+                    //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
+                    maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue));
+                }
+                this.undo();
+                if(maxvalue > minvalue){
+                    return maxvalue;//これで実質棄却。
+                }
+            }
+            mask = mask >> 1n;
+        }
+        return maxvalue;
+    }
+    eval(){
+        let mask= 0x8000000000000000n;
+        let ret = {};
+        let legal = this.makeLegalBoard();
+        for(let i = 0; i < 64; ++i){
+            if((mask&legal) == mask){
+                let coordinate = this.bitTOCoordinate(mask);
+                this.Put(mask);
+                ret[coordinate] = this.solve();
+                this.undo()
+            }
+            mask = mask >> 1n;
+        }
+        return ret;
+    }
+
 }
