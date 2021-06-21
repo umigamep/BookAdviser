@@ -16,6 +16,9 @@ class OthelloBoard {
         this.historyOfplayerBoard = {};
         this.historyOfopponentBoard = {};
         this.historyOfPut = {};
+        this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
+        this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
+        this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
 
     }
     //座標をBitに変換
@@ -253,21 +256,23 @@ class OthelloBoard {
                     //終了していなかったら記録
                     this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
                     this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
-                    this.historyOfopponentBoard[this.nowINdex] = this.opponentBoard;
+                    this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
                 }
             } else {
                 //パスがなければ普通に記録
                 this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
                 this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
-                this.historyOfopponentBoard[this.nowINdex] = this.opponentBoard;
+                this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
             }
         }
     }
     undo(){
-        this.nowIndex -= 1;
-        this.nowTurn = this.historyOfnowTurn[this.nowIndex];
-        this.playerBoard = this.historyOfplayerBoard[this.nowIndex];
-        this.opponentBoard = this.historyOfopponentBoard[this.nowIndex];
-        this.isGameFinished = false;
+        if(this.nowIndex>=1){
+            this.nowIndex -= 1;
+            this.nowTurn = this.historyOfnowTurn[this.nowIndex];
+            this.playerBoard = this.historyOfplayerBoard[this.nowIndex];
+            this.opponentBoard = this.historyOfopponentBoard[this.nowIndex];
+            this.isGameFinished = false;
+        }
     }
 }

@@ -18,6 +18,9 @@ class OthelloBoard {
         this.historyOfplayerBoard = {};
         this.historyOfopponentBoard = {};
         this.historyOfPut = {};
+        this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
+        this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
+        this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
 
     }
     //座標をBitに変換
@@ -255,18 +258,17 @@ class OthelloBoard {
                     //終了していなかったら記録
                     this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
                     this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
-                    this.historyOfopponentBoard[this.nowINdex] = this.opponentBoard;
+                    this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
                 }
             } else {
                 //パスがなければ普通に記録
                 this.historyOfnowTurn[this.nowIndex] = this.nowTurn;
                 this.historyOfplayerBoard[this.nowIndex] = this.playerBoard;
-                this.historyOfopponentBoard[this.nowINdex] = this.opponentBoard;
+                this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
             }
         }
     }
     undo(){
-        alert("undo");
         if(this.nowIndex>=1){
             this.nowIndex -= 1;
             this.nowTurn = this.historyOfnowTurn[this.nowIndex];
@@ -301,11 +303,11 @@ window.onload = function(){
         othelloboard.Put(mask >> BigInt(index));
     }
     var undobutton = document.getElementById("undobutton");
-    undobutton.addEventListener('click',alert("button"));
-    function undo(){
+    undobutton.addEventListener('click',function(){
         othelloboard.undo();
         displayBoard();
-    }
+    });
+    
     function displayBoard(){
         let mask = 0x8000000000000000n;
         let playercolor;
@@ -320,9 +322,10 @@ window.onload = function(){
         for(let i = 0; i < 64; ++i){
             if((othelloboard.playerBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
                 $tableElements[i].className = playercolor;
-            }
-            if((othelloboard.opponentBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
+            } else if((othelloboard.opponentBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
                 $tableElements[i].className = opponentcolor;
+            } else{
+                $tableElements[i].className = "";
             }
         }
     }
