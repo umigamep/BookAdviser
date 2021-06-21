@@ -354,6 +354,21 @@ class OthelloBoard {
             this.Put(this.coordinateToBit(line.slice(2*i,2*i+1),line.slice(2*i+1,2*i+2)));
         }
     }
+    /*実装したがid取得が面倒で使ってない*/
+    edit(mask,color){
+        /*color:Black = 100, White = -100, Green = 0*/
+        if(this.nowTurn==color){
+            this.playerBoard = mask|this.playerBoard;
+        } else if(this.nowTurn==-color){
+            this.opponentBoard = mask|this.opponentBoard;
+        } else {
+            this.playerBoard = (~mask)&this.playerBoard;
+            this.opponentBoard = (~mask)&this.opponentBoard;
+        }
+    }
+    blankcount(){
+        return this.bitCount(~(this.playerBoard | this.opponentBoard));
+    }
     undo(){
         if(this.nowIndex>=1){
             this.nowIndex -= 1;
@@ -526,7 +541,7 @@ window.onload = function(){
 
     var solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
-        if(othelloboard.nowIndex>=50){
+        if(othelloboard.blankcount()<=10){
             let dict = othelloboard.eval();
             for(let key in dict){
                 document.getElementById(key).className="evalmode";
