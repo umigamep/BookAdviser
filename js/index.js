@@ -517,59 +517,58 @@ class OthelloBoard {
 window.onload = function(){
     //ここもimportがうまく動かん…
     //ファイル入力処理
-    var file = document.getElementById('file');
-    var result = document.getElementById('result');
+    var submitbutton = document.getElementById('submitbutton');
 
     var csv_data = [];
-    // File APIに対応しているか確認
-    if(window.File && window.FileReader && window.FileList && window.Blob) {
-        function loadLocalCsv(e) {
-            // ファイル情報を取得
-            var fileData = e.target.files[0];
-            console.log(fileData); // 取得した内容の確認用
+    const legalfilename = [
+        'Buffalo',
+        'Compoth',
+        'Cow',
+        'D8Compoth',
+        'F7Compoth',
+        'H6Compoth',
+        'LightningBolt',
+        'Logistero',
+        'Nokung',
+        'Rose',
+        'SharpCompoth',
+        'Snake',
+        'Tamapla',
+        'Tiger',
+        'Tobidashi'];
+    function legalfilenames(){
+        let ret = "";
+        for(let i = 0; i < legalfilename.length; ++i){
+            ret += legalfilename[i];
+            ret += "<br>"
+        }
+        return ret;
+    }
+    document.getElementById("legalnames").innerHTML = legalfilenames();
+
+    submitbutton.addEventListener('click', function(){
+        if(legalfilename.includes(document.getElementById("submittext").value)){
+            var req = new XMLHttpRequest();
+            req.open("GET","./csv/"+document.getElementById("submittext").value+"_30.csv", true);
+            req.send();
     
-            // CSVファイル以外は処理を止める
-            if(!fileData.name.match('.csv$')) {
-                alert('CSVファイルを選択してください');
-                return;
-            }
-            //ここ全部消してもなぜか動くんだけどどういうこと…
-            
-            // FileReaderオブジェクトを使ってファイル読み込み
-            var reader = new FileReader();
-        
-            // ファイル読み込みに成功したときの処理
-            reader.onload = function() {
-                var cols = reader.result.split('\n');
+            req.onload = function(){
+                var cols = req.responseText.split('\n');
                 csv_data = [];
                 for (var i = 1; i < cols.length; i++) {
                     csv_data[i-1] = cols[i].split(',');
-                }
+                }          
             }
-            // ファイル読み込みを実行
-            reader.readAsText(fileData);
-            
-           /*
-           var req = new XMLHttpRequest();
-           req.open("get","./csv/Snake_30.csv", true);
-           req.send();
-
-           req.onload = function(){
-                csv_data = convertCSVtoArray(req.responseText);            
-           }
-           */
+        } else {
+            alert("間違った名前です");
         }
-        file.addEventListener('change', loadLocalCsv, false);
+    }, false);
     
-    } else {
-        file.style.display = 'none';
-        result.innerHTML = 'File APIに対応したブラウザでご確認ください';
-    }
 
     //csvフォルダ内の一覧を取得
-    folderRef = new Folder ("./csv/"); //←一覧を取得するフォルダを指定します
-    fileList = folderRef.getFiles();
-    alert(fileList);
+    //folderRef = new Folder ("./csv/"); //←一覧を取得するフォルダを指定します
+    //fileList = folderRef.getFiles();
+    //alert(fileList);
 
     //オセロ処理
     let othelloboard = new OthelloBoard();
@@ -654,7 +653,7 @@ window.onload = function(){
                     data = csv_data[i];
                 }
             }
-            for(let i = 3; i < 10; ++i){
+            for(let i = 3; i < 15; ++i){
                 if(data[i] != ""){
                     let di = Number(data[i]);
                     let next = csv_data[di][0].slice(-2);
