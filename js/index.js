@@ -533,7 +533,8 @@ window.onload = function(){
                 alert('CSVファイルを選択してください');
                 return;
             }
-            /*
+            //ここ全部消してもなぜか動くんだけどどういうこと…
+            
             // FileReaderオブジェクトを使ってファイル読み込み
             var reader = new FileReader();
         
@@ -547,7 +548,7 @@ window.onload = function(){
             }
             // ファイル読み込みを実行
             reader.readAsText(fileData);
-            */
+            
            /*
            var req = new XMLHttpRequest();
            req.open("get","./csv/Snake_30.csv", true);
