@@ -548,6 +548,7 @@ window.onload = function(){
             // ファイル読み込みを実行
             reader.readAsText(fileData);
             */
+           
            var req = new XMLHttpRequest();
            req.open("get","./csv/Snake_30.csv", true);
            req.send();
@@ -555,6 +556,7 @@ window.onload = function(){
            req.onload = function(){
                 csv_data = convertCSVtoArray(req.responseText);            
            }
+           
         }
         file.addEventListener('change', loadLocalCsv, false);
     
