@@ -529,7 +529,7 @@ window.onload = function(){
         'H6Compoth',
         'LightningBolt',
         'Logistello',
-        'Nokung',
+        'NoKung',
         'Rose',
         'SharpCompoth',
         'Snake',
