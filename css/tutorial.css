@@ -1,3 +1,9 @@
+html {
+  font-size: 80%;
+}
+table {
+  table-layout: fixed;
+}
 /* 盤全体を黒色にする */
 .board {
   background-color: black;
@@ -6,8 +12,8 @@
 /* マス１つ１つを緑色の正方形にする */
 .board tr td{
   background-color: seagreen;
-  width: 4rem;
-  height: 4rem;
+  width: 5rem;
+  height:5rem;
   text-align: center;
   vertical-align: center;
   font-size: 1.4rem;/*これは効いてないっぽい*/
@@ -20,20 +26,12 @@ th {
 .kuro:before {
   color: black;
   content: "●";
-  width: 4rem;
-  height: 4rem;
-  text-align: center;
-  vertical-align: center;
   font-size: 2.8rem;/*これは効いてないっぽい*/
 }
 /* 白石 */
 .shiro:before {
   color: white;
   content: "●";
-  width: 4rem;
-  height: 4rem;
-  text-align: center;
-  vertical-align: center;
   font-size: 2.8rem;/*これは効いてないっぽい*/
 }
 .evalmode{
