@@ -10,7 +10,7 @@
   height: 4rem;
   text-align: center;
   vertical-align: center;
-  font-size: 5rem;
+  font-size: 1.4rem;/*これは効いてないっぽい*/
   cursor: pointer;
 }
 th {
