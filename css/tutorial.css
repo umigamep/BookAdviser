@@ -18,6 +18,7 @@ table {
   vertical-align: center;
   font-size: 1.4rem;/*これは効いてないっぽい*/
   cursor: pointer;
+  padding: 0.1rem,0.1rem,0.1rem,0.1rem;
 }
 th {
   background-color: white;
@@ -26,13 +27,13 @@ th {
 .kuro:before {
   color: black;
   content: "●";
-  font-size: 2.8rem;/*これは効いてないっぽい*/
+  font-size: 3rem;/*これは効いてないっぽい*/
 }
 /* 白石 */
 .shiro:before {
   color: white;
   content: "●";
-  font-size: 2.8rem;/*これは効いてないっぽい*/
+  font-size: 3rem;/*これは効いてないっぽい*/
 }
 .evalmode{
   color: blue;
