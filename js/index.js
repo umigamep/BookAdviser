@@ -514,8 +514,8 @@ class OthelloBoard {
 
 
 
-//ここもimportがうまく動かん…
 window.onload = function(){
+    //ここもimportがうまく動かん…
     //ファイル入力処理
     var file = document.getElementById('file');
     var result = document.getElementById('result');
@@ -533,9 +533,10 @@ window.onload = function(){
                 alert('CSVファイルを選択してください');
                 return;
             }
-    
+            /*
             // FileReaderオブジェクトを使ってファイル読み込み
             var reader = new FileReader();
+        
             // ファイル読み込みに成功したときの処理
             reader.onload = function() {
                 var cols = reader.result.split('\n');
@@ -546,6 +547,14 @@ window.onload = function(){
             }
             // ファイル読み込みを実行
             reader.readAsText(fileData);
+            */
+           var req = new XMLHttpRequest();
+           req.open("get","./csv/Snake_30.csv", true);
+           req.send();
+
+           req.onload = function(){
+                csv_data = convertCSVtoArray(req.responseText);            
+           }
         }
         file.addEventListener('change', loadLocalCsv, false);
     
@@ -554,6 +563,10 @@ window.onload = function(){
         result.innerHTML = 'File APIに対応したブラウザでご確認ください';
     }
 
+    //csvフォルダ内の一覧を取得
+    folderRef = new Folder ("./csv/"); //←一覧を取得するフォルダを指定します
+    fileList = folderRef.getFiles();
+    alert(fileList);
 
     //オセロ処理
     let othelloboard = new OthelloBoard();
