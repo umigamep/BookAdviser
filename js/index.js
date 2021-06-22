@@ -528,7 +528,7 @@ window.onload = function(){
         'F7Compoth',
         'H6Compoth',
         'LightningBolt',
-        'Logistero',
+        'Logistello',
         'Nokung',
         'Rose',
         'SharpCompoth',
