@@ -123,7 +123,8 @@
 </table>
 <br><br>
 表示する定石を入力してください(現在登録されている定石の一覧は下部)<br>
-<input type="text" id="submittext">
+<input type="text" id="submittext" autocomplete="on" list="legalnames">
+<datalist id="legalnames"></datalist>
 <input type="button" id="submitbutton" value = "送信">
 <br>
 <h2>使い方</h2>
@@ -133,7 +134,6 @@ bookは自作のものを使用しています。概ね正確と思いますが�
 現在初手はF5のみ対応しています(サボり)。<br>
 <h2>既知の不具合</h2>
 いくつかのbookが浅く、分岐を過小評価している。
-<h2>現在登録されている定石:</h2>
-<div id="legalnames"> </div>
+
 </body>
 </html>

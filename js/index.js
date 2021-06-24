@@ -546,8 +546,9 @@ window.onload = function(){
     function legalfilenames(){
         let ret = "";
         for(let i = 0; i < legalfilename.length; ++i){
+            ret += "<option value='";
             ret += legalfilename[i];
-            ret += "<br>"
+            ret += "'>'"
         }
         return ret;
     }
