@@ -567,6 +567,7 @@ window.onload = function(){
                     csv_data[i-1] = cols[i].split(',');
                 }          
             }
+            document.getElementById("selectedname").innerHTML=document.getElementById("submittext").value;
         } else {
             alert("間違った名前です");
         }
