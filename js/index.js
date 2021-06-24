@@ -535,7 +535,7 @@ window.onload = function(){
         'LightningBolt',
         'Logistero',
         'NoKung_10F7',
-        'Nokung',
+        'NoKung',
         'Rose',
         'SharpCompoth',
         'Snake',
