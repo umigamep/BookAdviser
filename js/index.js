@@ -659,18 +659,18 @@ window.onload = function(){
             for(let i = 0; i < csv_data.length; ++i){
                 if(csv_data[i][0] == nowKifu){
                     data = csv_data[i];
+                    for(let j = 3; j < 15; ++j){
+                        if(data[j] != ""){
+                            let di = Number(data[j]);
+                            let next = csv_data[di][0].slice(-2);
+                            document.getElementById(next).className="evalmode";
+                            document.getElementById(next).innerHTML = +String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));
+                        } else {
+                            break;
+                        }
+                    }
                 }
-            }
-            for(let i = 3; i < 15; ++i){
-                if(data[i] != ""){
-                    let di = Number(data[i]);
-                    let next = csv_data[di][0].slice(-2);
-                    document.getElementById(next).className="evalmode";
-                    document.getElementById(next).innerHTML = +String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));
-                } else {
-                    break;
-                }
-            }
+            }    
         }
     }
 
