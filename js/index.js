@@ -548,7 +548,7 @@ window.onload = function(){
         for(let i = 0; i < legalfilename.length; ++i){
             ret += "<option value='";
             ret += legalfilename[i];
-            ret += "'>'"
+            ret += "'>"
         }
         return ret;
     }
