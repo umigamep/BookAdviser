@@ -521,19 +521,26 @@ window.onload = function(){
 
     var csv_data = [];
     const legalfilename = [
+        'BergTiger',
         'Buffalo',
         'Compoth',
         'Cow',
         'D8Compoth',
+        'EJ',
         'F7Compoth',
+        'FJT_11C6',
         'H6Compoth',
+        'Kingyo_11B4',
+        'Kung',
         'LightningBolt',
-        'Logistello',
-        'NoKung',
+        'Logistero',
+        'NoKung_10F7',
+        'Nokung',
         'Rose',
         'SharpCompoth',
         'Snake',
         'Tamapla',
+        'Tatekoro',
         'Tiger',
         'Tobidashi'];
     function legalfilenames(){
