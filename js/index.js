@@ -329,7 +329,8 @@ class OthelloBoard {
         return (blackScore, whiteScore);
     }
     Put(put) {
-        if(this.canPut(put)){
+        let ret = this.canPut(put);
+        if(ret){
             this.reverse(put);//この時点で手番が足されている。
             this.swapBoard();
             this.historyOfPut[this.nowIndex] = put;
@@ -354,6 +355,7 @@ class OthelloBoard {
                 this.historyOfopponentBoard[this.nowIndex] = this.opponentBoard;
             }
         }
+        return ret;
     }
     playline(line){
         this.new();
@@ -400,42 +402,64 @@ class OthelloBoard {
         //黒番なら、返り値＝黒石を最大化する手を選べば良い
         if(this.nowTurn==this.BLACK_TURN){
             let maxvalue = -100;
+            let legalmoves = [];
             for(let i = 0; i < 64; ++i){
-                //合法手の評価を確認
+                //合法手の応手数を確認
                 if((mask & legal)==mask){
                     this.Put(mask);
-                    if(this.nowTurn==this.BLACK_TURN){
-                        maxvalue = Math.max(maxvalue,this.solve());//めんどくさくてサボってる。
-                    } else {
-                        //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
-                        maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue));
-                    }
-                    this.undo();
+                    let nextlegal = this.makeLegalBoard();
+                    legalmoves.push( [ mask , this.bitCount( nextlegal ), nextlegal ] );
+                    this.undo();  
                 }
                 mask = mask >> 1n;
+            }
+
+            //応手が少ない順に並び替える
+            legalmoves.sort((a,b)=> a[1]-b[1]);
+            
+            //合法手の評価
+            for(let i = 0; i < legalmoves.length; ++i){
+                this.Put(legalmoves[i][0]);
+                if(this.nowTurn==this.BLACK_TURN){
+                    maxvalue = Math.max(maxvalue,this.solve());
+                } else {
+                    //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
+                    maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue,legalmoves[i][2]));
+                }
+                this.undo();
             }
             return maxvalue;
         } else {
             //今が白番の場合
             let minvalue = 100;
+            let legalmoves = [];
             for(let i = 0; i < 64; ++i){
                 if((mask & legal)==mask){
                     this.Put(mask);
-                    if(this.nowTurn==this.BLACK_TURN){
-                        //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
-                        minvalue = Math.min(minvalue,this.betasearch(minvalue));
-                    } else {
-                        minvalue = Math.min(minvalue,this.solve());//同じくサボり
-                    }
-                    this.undo();
+                    let nextlegal = this.makeLegalBoard();
+                    legalmoves.push( [mask,this.bitCount(nextlegal),nextlegal] );
+                    this.undo();  
                 }
                 mask = mask >> 1n;
+            }
+            
+            legalmoves.sort((a,b)=> a[1]-b[1]);
+
+            for(let i = 0; i < legalmoves.length; ++i){
+                this.Put(legalmoves[i][0]);
+                if(this.nowTurn==this.BLACK_TURN){
+                    //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
+                    minvalue = Math.min(minvalue,this.betasearch(minvalue,legalmoves[i][2]));
+                } else {
+                    minvalue = Math.min(minvalue,this.solve());//同じくサボり
+                }     
+                this.undo();
             }
             return minvalue;
         }
     }
     //alphasearchは常に白番。直前の黒番でmaxvelueが最低保証されているので、それ以下の応手が見つかると無意味になる。
-    alphasearch(maxvalue){
+    alphasearch(maxvalue,legal){
         if(this.isGameFinished){
             if(this.nowTurn==this.BLACK_TURN){
                 return this.bitCount(this.playerBoard);
@@ -443,29 +467,40 @@ class OthelloBoard {
                 return this.bitCount(this.opponentBoard);
             }
         }
-        let legal = this.makeLegalBoard();
         let mask= 0x8000000000000000n;
         let minvalue = 100;
+        let legalmoves = [];
+
         for(let i = 0; i < 64; ++i){
             if((mask & legal)==mask){
                 this.Put(mask);
-                if(this.nowTurn==this.BLACK_TURN){
-                    //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
-                    minvalue = Math.min(minvalue,this.betasearch(minvalue));
-                } else {
-                    minvalue = Math.min(minvalue,this.solve());//同じくサボり
-                }
+                let nextlegal = this.makeLegalBoard();
+                legalmoves.push([mask,this.bitCount(nextlegal),nextlegal]);
                 this.undo();
-                if(minvalue < maxvalue){
-                    return minvalue;//これで実質棄却。
-                }
             }
             mask = mask >> 1n;
+        }
+
+        legalmoves.sort((a,b)=> a[1]-b[1]);
+
+        for(let i = 0; i < legalmoves.length; ++i){
+            this.Put(legalmoves[i][0]);
+            if(this.nowTurn==this.BLACK_TURN){
+                //betasearch:次の黒番で、現状の最善進行より返り値が良くなるような応手が見つかった瞬間に打ち切る
+                minvalue = Math.min(minvalue,this.betasearch(minvalue,legalmoves[i][2]));
+            } else {
+                minvalue = Math.min(minvalue,this.solve());//同じくサボり
+            }
+            if(minvalue < maxvalue){
+                this.undo();
+                return minvalue;//これで実質棄却。
+            }
+            this.undo();
         }
         return minvalue;
     }
     //betasearchは常に黒番。直前の白番でminvalueが最低保証されているので、それ以上の応手が見つかると無意味になる。
-    betasearch(minvalue){
+    betasearch(minvalue,legal){
         if(this.isGameFinished){
             if(this.nowTurn==this.BLACK_TURN){
                 return this.bitCount(this.playerBoard);
@@ -473,24 +508,34 @@ class OthelloBoard {
                 return this.bitCount(this.opponentBoard);
             }
         }
-        let legal = this.makeLegalBoard();
         let mask= 0x8000000000000000n;
         let maxvalue = -100;
+        let legalmoves = [];
         for(let i = 0; i < 64; ++i){
             if((mask & legal)==mask){
                 this.Put(mask);
-                if(this.nowTurn==this.BLACK_TURN){
-                    maxvalue = Math.max(maxvalue,this.solve());//めんどくさくてサボってる。
-                } else {
-                    //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
-                    maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue));
-                }
+                let nextlegal = this.makeLegalBoard();
+                legalmoves.push([mask,this.bitCount(nextlegal),nextlegal]);
                 this.undo();
-                if(maxvalue > minvalue){
-                    return maxvalue;//これで実質棄却。
-                }
             }
             mask = mask >> 1n;
+        }
+
+        legalmoves.sort((a,b)=> a[1]-b[1]);
+
+        for(let i = 0; i < legalmoves.length; ++i){
+            this.Put(legalmoves[i][0]);
+            if(this.nowTurn==this.BLACK_TURN){
+                maxvalue = Math.max(maxvalue,this.solve());//めんどくさくてサボってる。
+            } else {
+                //alphasearch:次の白番で、現状の最善進行より返り値が悪くなるような応手が見つかった瞬間に打ち切る
+                maxvalue = Math.max(maxvalue,this.alphasearch(maxvalue,legalmoves[i][2]));
+            }
+            if(maxvalue > minvalue){
+                this.undo();
+                return maxvalue;//これで実質棄却。
+            }
+            this.undo();
         }
         return maxvalue;
     }
@@ -594,13 +639,14 @@ window.onload = function(){
         let tableElements = [].slice.call($tableElements);
         //クリックした位置の取得
         let index = tableElements.indexOf(this);
-        putOthello(index);
-        displayBoard();
+        if(putOthello(index)){
+            displayBoard();
+        };
       });
     }
     function putOthello(index) {
         let mask = 0x8000000000000000n;
-        othelloboard.Put(mask >> BigInt(index));
+        return othelloboard.Put(mask >> BigInt(index));
     }
     var undobutton = document.getElementById("undobutton");
     undobutton.addEventListener('click',function(){
@@ -630,7 +676,9 @@ window.onload = function(){
     var playlinebutton = document.getElementById("playlinebutton");
     playlinebutton.addEventListener('click',function(){
         let line = prompt("棋譜を入力してください","F5");
-        othelloboard.playline(line);
+        if(line){
+            othelloboard.playline(line);
+        }
         displayBoard();
     })
     function displayBoard(){
