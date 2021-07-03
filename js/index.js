@@ -587,6 +587,7 @@ window.onload = function(){
     'SharpCompoth',
     'Sheep',
     'Snake',
+    'Sunatora',
     'Tamapla',
     'Tatekoro',
     'Tiger',
