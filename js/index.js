@@ -566,6 +566,7 @@ window.onload = function(){
 
     var csv_data = [];
     const legalfilename = [
+        'Assan',
         'Bat',
         'BergTiger',
         'Buffalo',
