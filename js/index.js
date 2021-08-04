@@ -625,6 +625,7 @@ window.onload = function(){
                 }          
             }
             document.getElementById("selectedname").innerHTML=document.getElementById("submittext").value;
+            displayBoard();
         } else {
             alert("間違った名前です");
         }
