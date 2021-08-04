@@ -715,6 +715,7 @@ window.onload = function(){
             }
             $tableElements[i].innerHTML = "";
         }
+        document.getElementById("nowkifu").innerHTML = othelloboard.Kifu();
         if(csv_data.length > 0){
             let nowKifu = othelloboard.Kifu();
             let data;
