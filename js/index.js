@@ -580,7 +580,7 @@ window.onload = function(){
         'Horse',
         'Kingyo_11B4',
         'Kung',
-        "Leader'sTiger",
+        "LeadersTiger",
         'LightningBolt',
         'Logistello',
         'Logistello_yahoo',
