@@ -590,6 +590,7 @@ window.onload = function(){
         'Sheep',
         'Snake',
         'Sunatora',
+        'Swallow',
         'Tamapla',
         'Tatekoro',
         'Tiger',
@@ -597,7 +598,7 @@ window.onload = function(){
         'Tobidashi_10C4',
         'Tobidashi_10E8',
         'Tobidashi_11G6',
-        'UraTairyou',
+        'UraTairyou'
     ];
     function legalfilenames(){
         let ret = "";
