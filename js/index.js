@@ -698,12 +698,17 @@ window.onload = function(){
         let mask = 0x8000000000000000n;
         let playercolor;
         let opponentcolor;
+        let blackdisc,whitedisc;
         if(othelloboard.nowTurn==othelloboard.BLACK_TURN){
             playercolor = "kuro";
-            opponentcolor = "shiro"
+            opponentcolor = "shiro";
+            blackdisc = othelloboard.bitCount(othelloboard.playerBoard);
+            whitedisc = othelloboard.bitCount(othelloboard.opponentBoard);
         } else {
             playercolor = "shiro";
-            opponentcolor = "kuro"
+            opponentcolor = "kuro";
+            whitedisc = othelloboard.bitCount(othelloboard.playerBoard);
+            blackdisc = othelloboard.bitCount(othelloboard.opponentBoard);
         }
         for(let i = 0; i < 64; ++i){
             if((othelloboard.playerBoard & (mask >> BigInt(i))) == (mask >> BigInt(i))){
@@ -716,6 +721,8 @@ window.onload = function(){
             $tableElements[i].innerHTML = "";
         }
         document.getElementById("nowkifu").innerHTML = othelloboard.Kifu();
+        document.getElementById("blackdisc").innerHTML = String(blackdisc);
+        document.getElementById("whitedisc").innerHTML = String(whitedisc);
         if(csv_data.length > 0){
             let nowKifu = othelloboard.Kifu();
             let data;
