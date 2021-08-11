@@ -4,6 +4,27 @@ html {
 table {
   table-layout: fixed;
 }
+
+/* 黒石 */
+.kuro/*:before*/ {
+  /*
+    color: black;
+    content: "●";
+    font-size: 3rem;*//*これは効いてないっぽい*/
+    height: auto;
+    width:auto;
+    background: center url("images/disc-black.png") no-repeat;
+  }
+  /* 白石 */
+  .shiro/*:before*/ {
+  /*
+    color: white;
+    content: "●";
+    font-size: 3rem;*//*これは効いてないっぽい*/
+    height: auto;
+    width:auto;
+    background: center url("images/disc-white.png") no-repeat;
+  }
 /* 盤全体を黒色にする */
 .board {
   background-color: black;
@@ -23,18 +44,7 @@ table {
 th {
   background-color: white;
 }
-/* 黒石 */
-.kuro:before {
-  color: black;
-  content: "●";
-  font-size: 3rem;/*これは効いてないっぽい*/
-}
-/* 白石 */
-.shiro:before {
-  color: white;
-  content: "●";
-  font-size: 3rem;/*これは効いてないっぽい*/
-}
+
 .evalmode{
   color: blue;
   font-size: 0.3rem;/*これは効いてないっぽい*/
