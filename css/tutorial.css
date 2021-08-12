@@ -82,3 +82,14 @@ th {
   font-size: 3rem;
   color: white;
 }
+#undobutton {
+  width: 9rem;
+  height: 3.2rem;
+  font-size: 2rem;
+}
+
+#newbutton {
+  width: 9rem;
+  height: 3.2rem;
+  font-size: 2rem;
+}
