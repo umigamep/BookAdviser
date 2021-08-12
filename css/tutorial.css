@@ -5,6 +5,7 @@ table {
   table-layout: fixed;
 }
 
+
 /* 黒石 */
 .kuro/*:before*/ {
   /*
@@ -48,4 +49,36 @@ th {
 .evalmode{
   color: blue;
   font-size: 0.3rem;/*これは効いてないっぽい*/
+}
+.score{
+  text-align: center;
+  vertical-align: auto;
+  width: 43.6rem;
+  height:4rem;
+  background-color: gray;
+}
+#blackscore ::before{
+  text-align: center;
+  vertical-align: auto;
+  font-size: 3rem;
+  color: black;
+  content: "●";
+}
+#blackdisc {
+  text-align: center;
+  vertical-align: auto;
+  font-size: 3rem;
+}
+#whitescore ::before{
+  text-align: center;
+  vertical-align: auto;
+  font-size: 3rem;
+  color: white;
+  content: "●";
+}
+#whitedisc {
+  text-align: center;
+  vertical-align: auto;
+  font-size: 3rem;
+  color: white;
 }
