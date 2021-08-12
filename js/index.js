@@ -643,7 +643,7 @@ window.onload = function(){
     let othelloboard = new OthelloBoard();
     
     //tableの要素をとってくる
-    var $tableElements = document.getElementsByTagName('td');
+    var $tableElements = document.getElementsByName('coordinate');
     
     //石を配置する
     displayBoard();
