@@ -67,7 +67,7 @@ th {
 #blackdisc {
   text-align: center;
   vertical-align: auto;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
 }
 #whitescore ::before{
   text-align: center;
@@ -79,7 +79,7 @@ th {
 #whitedisc {
   text-align: center;
   vertical-align: auto;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   color: white;
 }
 #undobutton {
