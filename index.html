@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<input type="button" id="newbutton" value="新規">
+<input type="button" id="newbutton" value="新規対局">
 <input type="button" id="solvebutton" value="完全読み">
 <input type="button" id="playlinebutton" value="棋譜入力">
 <br><br>
@@ -134,14 +134,19 @@
 棋譜：<span id= "nowkifu"></span>
 <br><br>
 現在の定石：<span id = "selectedname">定石が選択されていません</span><br>
+<!--
 表示する定石を入力してください<br>
 <input type="text" id="submittext" autocomplete="on" list="legalnames">
 <datalist id="legalnames"></datalist>
 <input type="button" id="submitbutton" value = "送信">
+-->
+
 <br>
 <h2>使い方</h2>
-定石を入力すると(黒目線：白目線)の最小最善分岐数を確認できます。<br>
+参照ボタンを押すと、現局面が登録されていた場合(黒目線：白目線)の最小最善分岐数を確認できます。<br>
+参照に成功した場合、どの定石から派生した進行かが表示されます。<br>
 分岐数は30手目までのbookをもとに計算しています。<br>
+特定の頻出進行については中盤の盤面から40手目までの分岐が登録されています。<br>
 bookは自作のものを使用しています。概ね正確と思いますがミスを見つけたら教えてください。<br>
 現在初手はF5、縦の虎3手目はC3、斜めの4手目はD6のみ対応しています(対称形などをサボっています)。<br>
 <h2>既知の不具合</h2>

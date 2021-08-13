@@ -562,10 +562,10 @@ class OthelloBoard {
 window.onload = function(){
     //ここもimportがうまく動かん…
     //ファイル入力処理
-    var submitbutton = document.getElementById('submitbutton');
+    //var submitbutton = document.getElementById('submitbutton');
 
     let csv_data = [];
-    const legalfilename = [
+    /*const legalfilename = [
         'Assan',
         'Bat',
         'BergTiger',
@@ -601,7 +601,8 @@ window.onload = function(){
         'Tobidashi_10E8',
         'Tobidashi_11G6',
         'UraTairyou'
-    ];
+    ];*/
+    
     const csvfilenames = [
         'F5D6C3D3C4B5',
         'F5D6C3D3C4F4C5',
@@ -660,6 +661,8 @@ window.onload = function(){
         'F5F6E6D6E7G5C5F7F4D3G6',
         'F5F6E6D6F7'
     ];
+
+    /*
     function legalfilenames(){
         let ret = "";
         for(let i = 0; i < legalfilename.length; ++i){
@@ -670,8 +673,8 @@ window.onload = function(){
         return ret;
     }
     document.getElementById("legalnames").innerHTML = legalfilenames();
-
-    
+    */
+    /*
     submitbutton.addEventListener('click', function(){
         if(legalfilename.includes(document.getElementById("submittext").value)){
             var req = new XMLHttpRequest();
@@ -691,20 +694,21 @@ window.onload = function(){
             alert("間違った名前です");
         }
     }, false);
-    
+    */
 
 
     function match_longest_registered_name(kifu,csvfilenames){
         let max_len = 0;
-        let ret,fn;
+        let ret="",fn;
         for (let i = 0; i < csvfilenames.length; ++i) {
             fn = csvfilenames[i];
             if(!kifu.indexOf(fn)){
                 max_len = fn.length;
                 ret = fn;
-            } else if(max_len > 0) {
-                break;
             }
+        }
+        if(max_len==0){
+            alert("登録情報のない局面です。")
         }
         return ret;
     }
@@ -713,19 +717,20 @@ window.onload = function(){
     referencebutton.addEventListener('click', function(){
         var req = new XMLHttpRequest();
         let fn = match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames);
-        req.open("GET","./csv_kifu/"+fn+".csv", true);
-        req.send();
+        if(fn != ""){
+            req.open("GET","./csv_kifu/"+fn+".csv", true);
+            req.send();
 
-        req.onload = function(){
-            var cols = req.responseText.split('\n');
-            csv_data = [];
-            for (var i = 1; i < cols.length; i++) {
-                csv_data[i-1] = cols[i].split(',');
-            }          
+            req.onload = function(){
+                var cols = req.responseText.split('\n');
+                csv_data = [];
+                for (var i = 1; i < cols.length; i++) {
+                    csv_data[i-1] = cols[i].split(',');
+                }          
+            }
+            document.getElementById("selectedname").innerHTML=fn;
+            displayBoard();
         }
-        document.getElementById("selectedname").innerHTML=document.getElementById("submittext").value;
-        displayBoard();
-        
     }, false);
 
     //csvフォルダ内の一覧を取得
