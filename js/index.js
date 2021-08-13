@@ -564,7 +564,7 @@ window.onload = function(){
     //ファイル入力処理
     var submitbutton = document.getElementById('submitbutton');
 
-    var csv_data = [];
+    let csv_data = [];
     const legalfilename = [
         'Assan',
         'Bat',
@@ -602,6 +602,64 @@ window.onload = function(){
         'Tobidashi_11G6',
         'UraTairyou'
     ];
+    const csvfilenames = [
+        'F5D6C3D3C4B5',
+        'F5D6C3D3C4F4C5',
+        'F5D6C3D3C4F4C5B3C2B4C6',
+        'F5D6C3D3C4F4C5B3C2B4E3E6B6',
+        'F5D6C3D3C4F4C5B3C2D1',
+        'F5D6C3D3C4F4C5B3C2D2',
+        'F5D6C3D3C4F4C5B3C2E3D2C6F2',
+        'F5D6C3D3C4F4C5B3C2E6B4',
+        'F5D6C3D3C4F4C5B3C2F6',
+        'F5D6C3D3C4F4C5B3E2',
+        'F5D6C3D3C4F4E3',
+        'F5D6C3D3C4F4E6',
+        'F5D6C3D3C4F4F6B4',
+        'F5D6C3D3C4F4F6B4F3E6E3G5',
+        'F5D6C3D3C4F4F6F3',
+        'F5D6C3D3C4F4F6F3E3',
+        'F5D6C3D3C4F4F6F3E6E7C6',
+        'F5D6C3D3C4F4F6F3E6E7D7G6D8',
+        'F5D6C3D3C4F4F6F3E6E7D7G6F7',
+        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7H6',
+        'F5D6C3D3C4F4F6F3E6E7D7G6G5',
+        'F5D6C3D3C4F4F6F3E6E7F7',
+        'F5D6C3D3C4F4F6F3G4',
+        'F5D6C3D3C4F4F6G5',
+        'F5D6C3D3C4F4F6G5C6',
+        'F5D6C3D3C4F4F6G5E3',
+        'F5D6C3D3C4F4F6G5E6C5',
+        'F5D6C3D3C4F4F6G5E6D7C7',
+        'F5D6C3D3C4F4F6G5E6D7E3C5B6',
+        'F5D6C3D3C4F4F6G5E6D7E3C5F7',
+        'F5D6C3D3C4F4F6G5E6D7F7',
+        'F5D6C3D3C4F4F6G5E6F7',
+        'F5D6C3F4',
+        'F5D6C4D3E6',
+        'F5D6C4G5',
+        'F5D6C5',
+        'F5D6C5F4D3',
+        'F5D6C5F4D3E3G4G3',
+        'F5D6C6',
+        'F5F6E6D6C3',
+        'F5F6E6D6C5',
+        'F5F6E6D6C5E3D3G4',
+        'F5F6E6D6C5E3D3G5',
+        'F5F6E6D6C5E3E7',
+        'F5F6E6D6C7',
+        'F5F6E6D6D7',
+        'F5F6E6D6E7',
+        'F5F6E6D6E7F4',
+        'F5F6E6D6E7F7',
+        'F5F6E6D6E7G5C5C6E3B5',
+        'F5F6E6D6E7G5C5C6E3C4',
+        'F5F6E6D6E7G5C5C6E3E8',
+        'F5F6E6D6E7G5C5F4',
+        'F5F6E6D6E7G5C5F7C4F3',
+        'F5F6E6D6E7G5C5F7F4D3G6',
+        'F5F6E6D6F7'
+    ];
     function legalfilenames(){
         let ret = "";
         for(let i = 0; i < legalfilename.length; ++i){
@@ -613,6 +671,7 @@ window.onload = function(){
     }
     document.getElementById("legalnames").innerHTML = legalfilenames();
 
+    
     submitbutton.addEventListener('click', function(){
         if(legalfilename.includes(document.getElementById("submittext").value)){
             var req = new XMLHttpRequest();
@@ -633,6 +692,41 @@ window.onload = function(){
         }
     }, false);
     
+
+
+    function match_longest_registered_name(kifu,csvfilenames){
+        let max_len = 0;
+        let ret,fn;
+        for (let i = 0; i < csvfilenames.length; ++i) {
+            fn = csvfilenames[i];
+            if(!kifu.indexOf(fn)){
+                max_len = fn.length;
+                ret = fn;
+            } else if(max_len > 0) {
+                break;
+            }
+        }
+        return ret;
+    }
+    var referencebutton = document.getElementById('referencebutton');
+
+    referencebutton.addEventListener('click', function(){
+        var req = new XMLHttpRequest();
+        let fn = match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames);
+        req.open("GET","./csv_kifu/"+fn+".csv", true);
+        req.send();
+
+        req.onload = function(){
+            var cols = req.responseText.split('\n');
+            csv_data = [];
+            for (var i = 1; i < cols.length; i++) {
+                csv_data[i-1] = cols[i].split(',');
+            }          
+        }
+        document.getElementById("selectedname").innerHTML=document.getElementById("submittext").value;
+        displayBoard();
+        
+    }, false);
 
     //csvフォルダ内の一覧を取得
     //folderRef = new Folder ("./csv/"); //←一覧を取得するフォルダを指定します
@@ -736,7 +830,7 @@ window.onload = function(){
                             let di = Number(data[j]);
                             let next = csv_data[di][0].slice(-2);
                             document.getElementById(next).className="evalmode";
-                            document.getElementById(next).innerHTML = +String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));
+                            document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
                         } else {
                             break;
                         }
