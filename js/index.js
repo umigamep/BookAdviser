@@ -662,6 +662,9 @@ window.onload = function(){
         'F5D6C5',
         'F5D6C5F4D3',
         'F5D6C5F4D3E3G4G3',
+        'F5D6C5F4E3C6D3F6E6D7E7C3',
+        'F5D6C5F4E3C6D3F6E6D7G3C4B4B3G5',
+        'F5D6C5F4E3C6D3F6E6D7G4C4G5C3F7D2E7',
         'F5D6C6',
         'F5F6E6D6C3',
         'F5F6E6D6C5',
@@ -688,7 +691,7 @@ window.onload = function(){
         'F5F6E6D6E7G5C5F7C4F3',
         'F5F6E6D6E7G5C5F7F4D3G6',
         'F5F6E6D6E7G5C5F7F4D3G6E8H6F3G3G4',
-        'F5F6E6D6F7',
+        'F5F6E6D6F7'
     ];
 
     /*
