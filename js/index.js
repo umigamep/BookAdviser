@@ -603,6 +603,7 @@ window.onload = function(){
         'UraTairyou'
     ];*/
     
+    // todo ファイル名一覧のテキストを作って読み込む形に変える
     const csvfilenames = [
         'F5D6C3D3C4B5',
         'F5D6C3D3C4F4C5',
@@ -625,6 +626,7 @@ window.onload = function(){
         'F5D6C3D3C4F4F6F3',
         'F5D6C3D3C4F4F6F3E3',
         'F5D6C3D3C4F4F6F3E6E7C6',
+        'F5D6C3D3C4F4F6F3E6E7C6G5G6C5',
         'F5D6C3D3C4F4F6F3E6E7C6G5G6F7H5',
         'F5D6C3D3C4F4F6F3E6E7C6G6F8F7H6',
         'F5D6C3D3C4F4F6F3E6E7D7G6D8',
@@ -638,6 +640,7 @@ window.onload = function(){
         'F5D6C3D3C4F4F6F3E6E7D7G6F8F7H6',
         'F5D6C3D3C4F4F6F3E6E7D7G6F8F7H6C5',
         'F5D6C3D3C4F4F6F3E6E7D7G6G5',
+        'F5D6C3D3C4F4F6F3E6E7D7G6G5F7',
         'F5D6C3D3C4F4F6F3E6E7F7',
         'F5D6C3D3C4F4F6F3E6E7F7C5B6',
         'F5D6C3D3C4F4F6F3E6E7F7C5E3E2G3',
