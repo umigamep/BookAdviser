@@ -43,7 +43,7 @@ table {
   padding: 0.1rem,0.1rem,0.1rem,0.1rem;
 }
 th {
-  background-color: gray;
+  background-color: gray;/* .scoreと変えたいんだけど〜〜〜〜*/
 }
 
 .evalmode{

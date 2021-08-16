@@ -756,7 +756,7 @@ window.onload = function(){
             }
         }
         if(max_len==0){
-            alert("登録情報のない局面です。")
+            alert("定石を判定できない局面です。手を進めてください。")
         }
         return ret;
     }
