@@ -748,10 +748,8 @@ window.onload = function(){
         document.getElementById("whitedisc").innerHTML = String(whitedisc);
         if(csv_data.length > 0){
             let nowKifu = othelloboard.Kifu();
-            let data;
-            for(let i = 0; i < csv_data.length; ++i){
-                if(csv_data[i][0] == nowKifu){
-                    data = csv_data[i];
+            for(let data of csv_data){
+                if(data[0] == nowKifu){
                     let branch_list = [];
                     for(let j = 3; j < 15; ++j){
                         if(data[j] != ""){
@@ -765,17 +763,21 @@ window.onload = function(){
                         }
                     }
                     let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
-                    for(let j = 0; j < pareto.length; ++j){
-                        let par = pareto[j];
+                    for(let par of pareto){
                         document.getElementById(par[0]).innerHTML = "<span style='color:blue'>" + String(par[1]) + ":" + String(par[2]) + "</span>";
                     }
                 }
             } 
             let canput_coordinate = othelloboard.canPut_coordinate();
-            for(let i = 0; i < canput_coordinate.length; ++i){
-                if(csvfilenames.includes(nowKifu+canput_coordinate[i]) && document.getElementById(canput_coordinate[i]).className!="evalmode"){
-                    document.getElementById(canput_coordinate[i]).className="evalmode";
-                    document.getElementById(canput_coordinate[i]).innerHTML = "*";
+            for(let move of canput_coordinate){
+                if(document.getElementById(move).className!="evalmode"){
+                    for(let csvfilename of csvfilenames){
+                        if(csvfilename.includes(nowKifu+move)){
+                            document.getElementById(move).className="evalmode";
+                            document.getElementById(move).innerHTML = "*";
+                            break;
+                        }
+                    }
                 }
             }   
         }
