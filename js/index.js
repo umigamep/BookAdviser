@@ -751,12 +751,12 @@ window.onload = function(){
 
         if(csv_data.length > 0){
             let nowKifu = othelloboard.Kifu();
-            for(let data of csv_data){
-                if(data[0] == nowKifu){
+            for(let c_data of csv_data){
+                if(c_data[0] == nowKifu){
                     let branch_list = [];
-                    for(let j = 3; j < 15; ++j){
-                        if(data[j] != ""){
-                            let di = Number(data[j]);
+                    for(let j = 3; j < c_data.length; ++j){
+                        if(c_data[j] != ""){
+                            let di = Number(c_data[j]);
                             let next = csv_data[di][0].slice(-2);
                             document.getElementById(next).className="evalmode";
                             document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
