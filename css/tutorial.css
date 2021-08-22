@@ -40,7 +40,7 @@ table {
   vertical-align: center;
   font-size: 1.4rem;/*これは効いてないっぽい*/
   cursor: pointer;
-  padding: 0.1rem,0.1rem,0.1rem,0.1rem;
+  padding: 0.01rem,0.01rem,0.01rem,0.01rem;
 }
 th {
   background-color: gray;/* .scoreと変えたいんだけど〜〜〜〜*/
@@ -51,6 +51,7 @@ th {
   font-size: 0.3rem;/*これは効いてないっぽい*/
   text-align: center;
   vertical-align: center;
+  font-weight: bold;
 }
 .score{
   text-align: center;
