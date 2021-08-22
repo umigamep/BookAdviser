@@ -275,7 +275,7 @@ class OthelloBoard {
         let rev = 0n;
         for(let k=0; k < 8; ++k) {
             let rev_ = 0n;
-            var mask = this.transfer(put, k);
+            let mask = this.transfer(put, k);
             while ((mask != 0n) & ((mask & this.opponentBoard) != 0n)) {
                 rev_ |= mask;
                 mask = this.transfer(mask, k);
@@ -574,12 +574,11 @@ class OthelloBoard {
 window.onload = function(){
 
     // csvfileの一覧を読み込み、一致するパターンを返す処理
-    var csvfilenames = []
+    let csvfilenames = []
     function load_csvfilenames(){
-        var req_csv = new XMLHttpRequest();
+        let req_csv = new XMLHttpRequest();
         req_csv.open("GET","./csvfilenames.txt",false);
         try {
-
             req_csv.send(null);
         } catch (err) {
             console.log(err);
@@ -603,25 +602,28 @@ window.onload = function(){
         return ret;
     }
 
-    var referencebutton = document.getElementById('referencebutton');
-    var csv_data = [];
+    let referencebutton = document.getElementById('referencebutton');
+    let csv_data = [];
     referencebutton.addEventListener('click', function(){
         load_csvfilenames();
-        var req = new XMLHttpRequest();
+        let req = new XMLHttpRequest();
         let fn = match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames);
         if(fn != ""){
             req.open("GET","./csv_kifu/"+fn+".csv", true);
-            req.send();
-
-            req.onload = function(){
-                var cols = req.responseText.split('\n');
-                csv_data = [];
-                for (var i = 1; i < cols.length; i++) {
-                    csv_data[i-1] = cols[i].split(',');
-                }          
+            try {
+                req.send();
+            } catch (err) {
+                console.log(err);
             }
-            document.getElementById("selectedname").innerHTML=fn;
-            displayBoard();
+            req.onload = function(){
+                let cols = req.responseText.split('\n');
+                csv_data = [];
+                for (let i = 1; i < cols.length-1; i++) { // 1行目と最終行以外
+                    csv_data.push(cols[i].split(','));
+                }          
+                document.getElementById("selectedname").innerHTML=fn;
+                displayBoard();
+            }
         }
     }, false);
 
@@ -662,7 +664,7 @@ window.onload = function(){
     //オセロ処理
     let othelloboard = new OthelloBoard();
     //tableの要素をとってくる
-    var $tableElements = document.getElementsByName('coordinate');
+    let $tableElements = document.getElementsByName('coordinate');
     
     //石を配置する
     displayBoard();
@@ -683,19 +685,19 @@ window.onload = function(){
         let mask = 0x8000000000000000n;
         return othelloboard.Put(mask >> BigInt(index));
     }
-    var undobutton = document.getElementById("undobutton");
+    let undobutton = document.getElementById("undobutton");
     undobutton.addEventListener('click',function(){
         othelloboard.undo();
         displayBoard();
     });
 
-    var newbutton = document.getElementById("newbutton");
+    let newbutton = document.getElementById("newbutton");
     newbutton.addEventListener('click',function(){
         othelloboard.new();
         displayBoard();
     })
 
-    var solvebutton = document.getElementById("solvebutton");
+    let solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
         if(othelloboard.blankcount()<=10){
             let dict = othelloboard.eval();
@@ -708,7 +710,7 @@ window.onload = function(){
         }
     });
 
-    var playlinebutton = document.getElementById("playlinebutton");
+    let playlinebutton = document.getElementById("playlinebutton");
     playlinebutton.addEventListener('click',function(){
         let line = prompt("棋譜を入力してください","F5");
         if(line){
@@ -746,6 +748,7 @@ window.onload = function(){
         document.getElementById("nowkifu").innerHTML = othelloboard.Kifu();
         document.getElementById("blackdisc").innerHTML = String(blackdisc);
         document.getElementById("whitedisc").innerHTML = String(whitedisc);
+
         if(csv_data.length > 0){
             let nowKifu = othelloboard.Kifu();
             for(let data of csv_data){
@@ -774,7 +777,7 @@ window.onload = function(){
                     for(let csvfilename of csvfilenames){
                         if(csvfilename.includes(nowKifu+move)){
                             document.getElementById(move).className="evalmode";
-                            document.getElementById(move).innerHTML = "*";
+                            document.getElementById(move).innerHTML = "●";
                             break;
                         }
                     }
