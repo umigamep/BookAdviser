@@ -220,6 +220,18 @@ class OthelloBoard {
     
         return legalBoard;
     }
+    canPut_coordinate(){
+        let legalBoard = this.makeLegalBoard();
+        let mask= 0x8000000000000000n;
+        let ret = [];
+        for(let i = 0; i < 64; ++i){
+            if((mask & legalBoard) == mask){
+                ret.push(this.bitTOCoordinate(mask));
+            }
+            mask = mask >> 1n;
+        }
+        return ret;
+    }
     canPut (put){
         // 着手可能なマスにフラグが立っている合法手ボードを生成
         let legalBoard = this.makeLegalBoard();
@@ -758,7 +770,14 @@ window.onload = function(){
                         document.getElementById(par[0]).innerHTML = "<span style='color:blue'>" + String(par[1]) + ":" + String(par[2]) + "</span>";
                     }
                 }
-            }    
+            } 
+            let canput_coordinate = othelloboard.canPut_coordinate();
+            for(let i = 0; i < canput_coordinate.length; ++i){
+                if(csvfilenames.includes(nowKifu+canput_coordinate[i]) && document.getElementById(canput_coordinate[i]).className!="evalmode"){
+                    document.getElementById(canput_coordinate[i]).className="evalmode";
+                    document.getElementById(canput_coordinate[i]).innerHTML = "*";
+                }
+            }   
         }
     }
 }
