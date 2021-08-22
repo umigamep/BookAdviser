@@ -49,6 +49,8 @@ th {
 .evalmode{
   color: rgb(255, 136, 0);
   font-size: 0.3rem;/*これは効いてないっぽい*/
+  text-align: center;
+  vertical-align: center;
 }
 .score{
   text-align: center;
