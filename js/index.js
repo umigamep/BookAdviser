@@ -769,6 +769,7 @@ window.onload = function(){
                     for(let par of pareto){
                         document.getElementById(par[0]).innerHTML = "<span style='color:blue'>" + String(par[1]) + ":" + String(par[2]) + "</span>";
                     }
+                    break;
                 }
             } 
             let canput_coordinate = othelloboard.canPut_coordinate();
