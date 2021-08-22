@@ -47,7 +47,7 @@ th {
 }
 
 .evalmode{
-  color: blue;
+  color: rgb(255, 136, 0);
   font-size: 0.3rem;/*これは効いてないっぽい*/
 }
 .score{

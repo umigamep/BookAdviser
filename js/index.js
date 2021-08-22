@@ -560,205 +560,20 @@ class OthelloBoard {
 
 
 window.onload = function(){
-    //ここもimportがうまく動かん…
-    //ファイル入力処理
-    //var submitbutton = document.getElementById('submitbutton');
 
-    let csv_data = [];
-    /*const legalfilename = [
-        'Assan',
-        'Bat',
-        'BergTiger',
-        'Buffalo',
-        'Compoth',
-        'Cow',
-        'D8Compoth',
-        'EJ',
-        'F7Compoth',
-        'FJT_11C6',
-        'H6Compoth',
-        'Horse',
-        'Kingyo_11B4',
-        'Kung',
-        "LeadersTiger",
-        'LightningBolt',
-        'Logistello',
-        'Logistello_yahoo',
-        'NoKung',
-        'NoKung_10F7',
-        'Nousagi',
-        'Rose',
-        'SharpCompoth',
-        'Sheep',
-        'Snake',
-        'Sunatora',
-        'Swallow',
-        'Tamapla',
-        'Tatekoro',
-        'Tiger',
-        'Tobidashi',
-        'Tobidashi_10C4',
-        'Tobidashi_10E8',
-        'Tobidashi_11G6',
-        'UraTairyou'
-    ];*/
-    
-    // todo ファイル名一覧のテキストを作って読み込む形に変える
-    const csvfilenames = [
-        'F5D6C3D3C4B3',
-        'F5D6C3D3C4B5',
-        'F5D6C3D3C4F4C5',
-        'F5D6C3D3C4F4C5B3C2B4C6',
-        'F5D6C3D3C4F4C5B3C2B4E3E6B6',
-        'F5D6C3D3C4F4C5B3C2B4E3E6C6F6A5A4B5A6D7',
-        'F5D6C3D3C4F4C5B3C2D1',
-        'F5D6C3D3C4F4C5B3C2D2',
-        'F5D6C3D3C4F4C5B3C2E3D2C6B4A3G3G4F3C1B5A4A6',
-        'F5D6C3D3C4F4C5B3C2E3D2C6F2',
-        'F5D6C3D3C4F4C5B3C2E6B4',
-        'F5D6C3D3C4F4C5B3C2E6C6B4B5D2E3A6C1B6',
-        'F5D6C3D3C4F4C5B3C2E6C6B4B5D2E3A6C1D7',
-        'F5D6C3D3C4F4C5B3C2F6',
-        'F5D6C3D3C4F4C5B3E2',
-        'F5D6C3D3C4F4C5B4',
-        'F5D6C3D3C4F4E3',
-        'F5D6C3D3C4F4E6',
-        'F5D6C3D3C4F4F6B4',
-        'F5D6C3D3C4F4F6B4F3E6E3G5',
-        'F5D6C3D3C4F4F6F3',
-        'F5D6C3D3C4F4F6F3E3',
-        'F5D6C3D3C4F4F6F3E3B4G5',
-        'F5D6C3D3C4F4F6F3E6E7C6',
-        'F5D6C3D3C4F4F6F3E6E7C6G5G6C5',
-        'F5D6C3D3C4F4F6F3E6E7C6G5G6F7H5',
-        'F5D6C3D3C4F4F6F3E6E7C6G5G6F7H5C7F8',
-        'F5D6C3D3C4F4F6F3E6E7C6G6F8F7H6',
-        'F5D6C3D3C4F4F6F3E6E7C6G6G5',
-        'F5D6C3D3C4F4F6F3E6E7D7B3',
-        'F5D6C3D3C4F4F6F3E6E7D7G6D8',
-        'F5D6C3D3C4F4F6F3E6E7D7G6D8C5C6C7C8F7',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F7',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F7C5C6C8',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7G5G4H3G3',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7G5G4H3H5',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7G5H6H4B5',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7G5H6H4E8',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7G5H6H4G4',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7H6',
-        'F5D6C3D3C4F4F6F3E6E7D7G6F8F7H6C5',
-        'F5D6C3D3C4F4F6F3E6E7D7G6G5',
-        'F5D6C3D3C4F4F6F3E6E7D7G6G5C5C6',
-        'F5D6C3D3C4F4F6F3E6E7D7G6G5F7',
-        'F5D6C3D3C4F4F6F3E6E7F7',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6B4',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6G6E3E2F8',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6G6E3E2G4',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6G6E3E2G5',
-        'F5D6C3D3C4F4F6F3E6E7F7C5B6G6F8D8D7C6B5B4A5',
-        'F5D6C3D3C4F4F6F3E6E7F7C5E3E2G3',
-        'F5D6C3D3C4F4F6F3E6E7F7C5E3E2G4',
-        'F5D6C3D3C4F4F6F3G4',
-        'F5D6C3D3C4F4F6G5',
-        'F5D6C3D3C4F4F6G5C6',
-        'F5D6C3D3C4F4F6G5E3',
-        'F5D6C3D3C4F4F6G5E6C5',
-        'F5D6C3D3C4F4F6G5E6D7C7',
-        'F5D6C3D3C4F4F6G5E6D7E3C5B6',
-        'F5D6C3D3C4F4F6G5E6D7E3C5F3E7B6B5',
-        'F5D6C3D3C4F4F6G5E6D7E3C5F3E7B6G4',
-        'F5D6C3D3C4F4F6G5E6D7E3C5F3E7H5',
-        'F5D6C3D3C4F4F6G5E6D7E3C5F7',
-        'F5D6C3D3C4F4F6G5E6D7F7',
-        'F5D6C3D3C4F4F6G5E6F7',
-        'F5D6C3D3C4F4F6G5E6F7D7C5G3E3',
-        'F5D6C3F4',
-        'F5D6C4D3E6',
-        'F5D6C4G5',
-        'F5D6C5',
-        'F5D6C5F4D3',
-        'F5D6C5F4D3E3G4G3',
-        'F5D6C5F4E3C6D3F6E6D7E7C3',
-        'F5D6C5F4E3C6D3F6E6D7G3C4B4B3G5',
-        'F5D6C5F4E3C6D3F6E6D7G3C4E7',
-        'F5D6C5F4E3C6D3F6E6D7G3C4G5C3F7',
-        'F5D6C5F4E3C6D3F6E6D7G4C4G5C3F7D2E7',
-        'F5D6C5F4E3C6E6F6D7',
-        'F5D6C6',
-        'F5F6E6D6C3',
-        'F5F6E6D6C5',
-        'F5F6E6D6C5E3D3C4',
-        'F5F6E6D6C5E3D3F4E2C4C3B5B6',
-        'F5F6E6D6C5E3D3F4E2C4C3B5C6',
-        'F5F6E6D6C5E3D3F4F2E2F3G4G3F1G6',
-        'F5F6E6D6C5E3D3F4F2E2F3G4G3F1H4',
-        'F5F6E6D6C5E3D3G4',
-        'F5F6E6D6C5E3D3G5',
-        'F5F6E6D6C5E3D3G5F3B5C6B6E7D7F7',
-        'F5F6E6D6C5E3E7',
-        'F5F6E6D6C5E3F7',
-        'F5F6E6D6C5F4D7C4C3C8D3C7E7',
-        'F5F6E6D6C5F4D7C4C3C8D3C7E7D8',
-        'F5F6E6D6C7',
-        'F5F6E6D6D7',
-        'F5F6E6D6E7',
-        'F5F6E6D6E7F4',
-        'F5F6E6D6E7F4G5F7E3D3C6E8G6D7F8G8C4C3',
-        'F5F6E6D6E7F4G5F7E3D3C6E8G6G4',
-        'F5F6E6D6E7F7',
-        'F5F6E6D6E7G5C5C6C4',
-        'F5F6E6D6E7G5C5C6E3B5',
-        'F5F6E6D6E7G5C5C6E3C4',
-        'F5F6E6D6E7G5C5C6E3C4D7C7',
-        'F5F6E6D6E7G5C5C6E3D3C7F3F4G4C3',
-        'F5F6E6D6E7G5C5C6E3D3C7F8',
-        'F5F6E6D6E7G5C5C6E3E8',
-        'F5F6E6D6E7G5C5C6E3F8',
-        'F5F6E6D6E7G5C5F4',
-        'F5F6E6D6E7G5C5F7C4E3F4F3G6D3H5B4E2',
-        'F5F6E6D6E7G5C5F7C4E3F4F3G6D3H5C7C3',
-        'F5F6E6D6E7G5C5F7C4E3F4F3G6D8',
-        'F5F6E6D6E7G5C5F7C4E3F4F3G6E8',
-        'F5F6E6D6E7G5C5F7C4F3',
-        'F5F6E6D6E7G5C5F7F4D3G6',
-        'F5F6E6D6E7G5C5F7F4D3G6E8H6F3G3G4',
-        'F5F6E6D6F7'
-    ];
+    // csvfileの一覧を読み込み、一致するパターンを返す処理
+    var csvfilenames = []
+    function load_csvfilenames(){
+        var req_csv = new XMLHttpRequest();
+        req_csv.open("GET","./csvfilenames.txt",false);
+        try {
 
-    /*
-    function legalfilenames(){
-        let ret = "";
-        for(let i = 0; i < legalfilename.length; ++i){
-            ret += "<option value='";
-            ret += legalfilename[i];
-            ret += "'>"
+            req_csv.send(null);
+        } catch (err) {
+            console.log(err);
         }
-        return ret;
-    }
-    document.getElementById("legalnames").innerHTML = legalfilenames();
-    */
-    /*
-    submitbutton.addEventListener('click', function(){
-        if(legalfilename.includes(document.getElementById("submittext").value)){
-            var req = new XMLHttpRequest();
-            req.open("GET","./csv/"+document.getElementById("submittext").value+"_30.csv", true);
-            req.send();
-    
-            req.onload = function(){
-                var cols = req.responseText.split('\n');
-                csv_data = [];
-                for (var i = 1; i < cols.length; i++) {
-                    csv_data[i-1] = cols[i].split(',');
-                }          
-            }
-            document.getElementById("selectedname").innerHTML=document.getElementById("submittext").value;
-            displayBoard();
-        } else {
-            alert("間違った名前です");
-        }
-    }, false);
-    */
-
+        csvfilenames = req_csv.responseText.split('\n');
+    };
 
     function match_longest_registered_name(kifu,csvfilenames){
         let max_len = 0;
@@ -775,9 +590,11 @@ window.onload = function(){
         }
         return ret;
     }
-    var referencebutton = document.getElementById('referencebutton');
 
+    var referencebutton = document.getElementById('referencebutton');
+    var csv_data = [];
     referencebutton.addEventListener('click', function(){
+        load_csvfilenames();
         var req = new XMLHttpRequest();
         let fn = match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames);
         if(fn != ""){
@@ -796,14 +613,42 @@ window.onload = function(){
         }
     }, false);
 
-    //csvフォルダ内の一覧を取得
-    //folderRef = new Folder ("./csv/"); //←一覧を取得するフォルダを指定します
-    //fileList = folderRef.getFiles();
-    //alert(fileList);
-
+    //pareto_branch from turn,[[coordinate,black_branch,white_branch]]
+    function pareto_branch(turn,branch_list){
+        if(branch_list.length < 2){
+            return branch_list;
+        }
+        let elem_min;
+        let elem_max;
+        if(turn == othelloboard.BLACK_TURN){ //Black_turn
+            elem_min = 1;
+            elem_max = 2;
+        } else {
+            elem_min = 2;
+            elem_max = 1;
+        }
+        let pareto = [];
+        branch_list.sort(function(a,b){
+            return a[elem_min]-b[elem_min]; // sort by black_branch
+        });
+        
+        for(let i = 0; i < branch_list.length; ++i){
+            let branch = branch_list[i]; //first_element
+            let flag = 1;
+            for(let j = 0; j < pareto.length; ++j){
+                let par = pareto[j];
+                if((par[elem_min] < branch[elem_min]) && (par[elem_max] > branch[elem_max])){
+                    flag = 0;
+                }
+            }
+            if(flag){
+                pareto.push(branch);
+            }
+        }
+        return pareto;
+    }
     //オセロ処理
     let othelloboard = new OthelloBoard();
-    
     //tableの要素をとってくる
     var $tableElements = document.getElementsByName('coordinate');
     
@@ -816,6 +661,7 @@ window.onload = function(){
         let tableElements = [].slice.call($tableElements);
         //クリックした位置の取得
         let index = tableElements.indexOf(this);
+        
         if(putOthello(index)){
             displayBoard();
         };
@@ -858,6 +704,7 @@ window.onload = function(){
         }
         displayBoard();
     })
+
     function displayBoard(){
         let mask = 0x8000000000000000n;
         let playercolor;
@@ -893,21 +740,27 @@ window.onload = function(){
             for(let i = 0; i < csv_data.length; ++i){
                 if(csv_data[i][0] == nowKifu){
                     data = csv_data[i];
+                    let branch_list = [];
                     for(let j = 3; j < 15; ++j){
                         if(data[j] != ""){
                             let di = Number(data[j]);
                             let next = csv_data[di][0].slice(-2);
                             document.getElementById(next).className="evalmode";
                             document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
+                            branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
                         } else {
                             break;
                         }
+                    }
+                    let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
+                    for(let j = 0; j < pareto.length; ++j){
+                        let par = pareto[j];
+                        document.getElementById(par[0]).innerHTML = "<span style='color:blue'>" + String(par[1]) + ":" + String(par[2]) + "</span>";
                     }
                 }
             }    
         }
     }
-
 }
     
 
