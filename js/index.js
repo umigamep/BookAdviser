@@ -643,7 +643,7 @@ window.onload = function(){
         }
         let pareto = [];
         branch_list.sort(function(a,b){
-            return a[elem_min]-b[elem_min]; // sort by black_branch
+            return a[elem_min]-b[elem_min] + 0.001*(b[elem_max]-a[elem_max]); // sort by black_branch
         });
         
         for(let i = 0; i < branch_list.length; ++i){
@@ -681,6 +681,14 @@ window.onload = function(){
         };
       });
     }
+    for (let $i=0; $i < $tableElements.length; $i++) {
+        $tableElements[$i].oncontextmenu = function(){
+            othelloboard.undo();
+            displayBoard();
+            return false;
+        };
+    }
+
     function putOthello(index) {
         let mask = 0x8000000000000000n;
         return othelloboard.Put(mask >> BigInt(index));
