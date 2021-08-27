@@ -765,10 +765,12 @@ window.onload = function(){
                     for(let j = 3; j < c_data.length; ++j){
                         if(c_data[j] != ""){
                             let di = Number(c_data[j]);
-                            let next = csv_data[di][0].slice(-2);
-                            document.getElementById(next).className="evalmode";
-                            document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
-                            branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
+                            if(csv_data[di][3] != ""){
+                                let next = csv_data[di][0].slice(-2);
+                                document.getElementById(next).className="evalmode";
+                                document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
+                                branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
+                            }
                         } else {
                             break;
                         }
