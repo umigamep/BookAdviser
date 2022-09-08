@@ -769,7 +769,7 @@ window.onload = function(){
                             if(csv_data[di][3] != ""){
                                 let next = csv_data[di][0].slice(-2);
                                 document.getElementById(next).className="evalmode";
-                                document.getElementById(next).innerHTML = "<span style='color:orange;background-color: rgba(0, 0, 0, 0.1)'>" + String(Number(csv_data[di][1]))+"</span> <span style='color:orange;background-color: rgba(256, 256, 256, 0.1)'>"+String(Number(csv_data[di][2])) +"</span>";//表示を整数にするため
+                                document.getElementById(next).innerHTML = "<span style='color:orange;background-color: rgba(0, 0, 0, 0.1)'>"+String(Number(csv_data[di][1]))+"</span> "+"<span style='color:orange;background-color: rgba(256, 256, 256, 0.1)'>"+String(Number(csv_data[di][2]));//表示を整数にするため
                                 branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
                             }
                         } else {
@@ -778,7 +778,7 @@ window.onload = function(){
                     }
                     let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
                     for(let par of pareto){
-                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;background-color: rgba(0, 0, 0, 0.1)'>" + String(par[1]) + "</span> <span style='color:blue;background-color: rgba(256, 256, 256, 0.1)'>" + String(par[2]) + "</span>";
+                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;background-color: rgba(0, 0, 0, 0.1)'>" + String(par[1]) + "</span> " +"<span style='color:blue;background-color: rgba(256, 256, 256, 0.1)'>" + String(par[2]) + "</span>";
                     }
                     break;
                 }
@@ -789,7 +789,7 @@ window.onload = function(){
                     for(let csvfilename of csvfilenames){
                         if(csvfilename.includes(nowKifu+move)){
                             document.getElementById(move).className="evalmode";
-                            document.getElementById(move).innerHTML = "<span style='color:purple'>Ч</span>";
+                            document.getElementById(move).innerHTML = "Ч";
                             break;
                         }
                     }
