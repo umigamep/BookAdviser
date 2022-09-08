@@ -604,11 +604,12 @@ window.onload = function(){
 
     let referencebutton = document.getElementById('referencebutton');
     let csv_data = [];
+
     referencebutton.addEventListener('click', function(){
         load_csvfilenames();
         let req = new XMLHttpRequest();
         let fn = match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames);
-        if(fn != ""){
+        if(fn != "" && fn != document.getElementById("selectedname").innerHTML){
             req.open("GET","./csv_kifu/"+fn+".csv", true);
             try {
                 req.send();
@@ -707,14 +708,14 @@ window.onload = function(){
 
     let solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
-        if(othelloboard.blankcount()<=10){
+        if(othelloboard.blankcount()<=12){
             let dict = othelloboard.eval();
             for(let key in dict){
                 document.getElementById(key).className="evalmode";
                 document.getElementById(key).innerHTML=(2*dict[key]-64)*othelloboard.nowTurn/othelloboard.BLACK_TURN;    
             }
         } else {
-            alert("完全読みは50手目以降で利用可能です");
+            alert("完全読みは49手目以降で利用可能です");
         }
     });
 
@@ -768,7 +769,7 @@ window.onload = function(){
                             if(csv_data[di][3] != ""){
                                 let next = csv_data[di][0].slice(-2);
                                 document.getElementById(next).className="evalmode";
-                                document.getElementById(next).innerHTML = String(Number(csv_data[di][1]))+":"+String(Number(csv_data[di][2]));//表示を整数にするため
+                                document.getElementById(next).innerHTML = "<span style='color:orange;background-color: rgba(0, 0, 0, 0.1)'>" + String(Number(csv_data[di][1]))+"</span> <span style='color:orange;background-color: rgba(256, 256, 256, 0.1)'>"+String(Number(csv_data[di][2])) +"</span>";//表示を整数にするため
                                 branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
                             }
                         } else {
@@ -777,7 +778,7 @@ window.onload = function(){
                     }
                     let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
                     for(let par of pareto){
-                        document.getElementById(par[0]).innerHTML = "<span style='color:blue'>" + String(par[1]) + ":" + String(par[2]) + "</span>";
+                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;background-color: rgba(0, 0, 0, 0.1)'>" + String(par[1]) + "</span> <span style='color:blue;background-color: rgba(256, 256, 256, 0.1)'>" + String(par[2]) + "</span>";
                     }
                     break;
                 }
@@ -788,7 +789,7 @@ window.onload = function(){
                     for(let csvfilename of csvfilenames){
                         if(csvfilename.includes(nowKifu+move)){
                             document.getElementById(move).className="evalmode";
-                            document.getElementById(move).innerHTML = "●";
+                            document.getElementById(move).innerHTML = "<span style='color:purple'>Ч</span>";
                             break;
                         }
                     }
