@@ -596,9 +596,11 @@ window.onload = function(){
                 ret = fn;
             }
         }
+        /*
         if(max_len==0){
             alert("定石を判定できない局面です。手を進めてください。")
         }
+        */
         return ret;
     }
 
@@ -769,7 +771,7 @@ window.onload = function(){
                             if(csv_data[di][3] != ""){
                                 let next = csv_data[di][0].slice(-2);
                                 document.getElementById(next).className="evalmode";
-                                document.getElementById(next).innerHTML = "<span style='color:orange;border:1px solid black;font-size:130%;'> "+String(Number(csv_data[di][1]))+"</span> "+"<span style='color:orange;border:1px solid white;font-size:130%;'> "+String(Number(csv_data[di][2]))+" </span>";//表示を整数にするため
+                                document.getElementById(next).innerHTML = "<span style='color:orange;border-bottom:2px solid black;font-size:130%;'> "+String(Number(csv_data[di][1]))+"</span> "+"<span style='color:orange;border-bottom:2px solid white;font-size:130%;'> "+String(Number(csv_data[di][2]))+" </span>";//表示を整数にするため
                                 branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
                             }
                         } else {
@@ -778,7 +780,7 @@ window.onload = function(){
                     }
                     let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
                     for(let par of pareto){
-                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;border:1px solid black;font-size:130%;'> " + String(par[1]) + "</span> " +"<span style='color:blue;border:1px solid white;font-size:130%;'> " + String(par[2]) + " </span>";
+                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;border-bottom:2px solid black;font-size:130%;'> " + String(par[1]) + "</span> " +"<span style='color:blue;border-bottom:2px solid white;font-size:130%;'> " + String(par[2]) + " </span>";
                     }
                     break;
                 }
@@ -795,6 +797,14 @@ window.onload = function(){
                     }
                 }
             }   
+        }
+        if(match_longest_registered_name(document.getElementById("nowkifu").innerHTML,csvfilenames) != document.getElementById("selectedname").innerHTML
+         && document.getElementById("selectedname").innerHTML != ""){
+            referencebutton.style.borderColor='red';
+            referencebutton.style.borderWidth='thick'
+        } else {
+            referencebutton.style.borderColor='grey';
+            referencebutton.style.borderWidth='thin'
         }
     }
 }
