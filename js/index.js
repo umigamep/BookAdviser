@@ -710,14 +710,14 @@ window.onload = function(){
 
     let solvebutton = document.getElementById("solvebutton");
     solvebutton.addEventListener('click',function(){
-        if(othelloboard.blankcount()<=12){
+        if(othelloboard.blankcount()<=10){
             let dict = othelloboard.eval();
             for(let key in dict){
                 document.getElementById(key).className="evalmode";
                 document.getElementById(key).innerHTML=(2*dict[key]-64)*othelloboard.nowTurn/othelloboard.BLACK_TURN;    
             }
         } else {
-            alert("完全読みは49手目以降で利用可能です");
+            alert("完全読みは50手目以降で利用可能です.");
         }
     });
 
@@ -771,7 +771,7 @@ window.onload = function(){
                             if(csv_data[di][3] != ""){
                                 let next = csv_data[di][0].slice(-2);
                                 document.getElementById(next).className="evalmode";
-                                document.getElementById(next).innerHTML = "<span style='color:orange;border-bottom:2px solid black;font-size:130%;'> "+String(Number(csv_data[di][1]))+"</span> "+"<span style='color:orange;border-bottom:2px solid white;font-size:130%;'> "+String(Number(csv_data[di][2]))+" </span>";//表示を整数にするため
+                                document.getElementById(next).innerHTML = "<span style='color:orange;border-bottom:2px solid black;font-size:110%;'> "+String(Number(csv_data[di][1]))+"</span>"+"<span style='color:orange;font-size:110%;'>:</span>"+"<span style='color:orange;border-bottom:2px solid white;font-size:110%;'>"+String(Number(csv_data[di][2]))+" </span>";//表示を整数にするため
                                 branch_list.push([next,Number(csv_data[di][1]),Number(csv_data[di][2])]);
                             }
                         } else {
@@ -780,7 +780,7 @@ window.onload = function(){
                     }
                     let pareto = pareto_branch(othelloboard.nowTurn,branch_list);
                     for(let par of pareto){
-                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;border-bottom:2px solid black;font-size:130%;'> " + String(par[1]) + "</span> " +"<span style='color:blue;border-bottom:2px solid white;font-size:130%;'> " + String(par[2]) + " </span>";
+                        document.getElementById(par[0]).innerHTML = "<span style='color:blue;border-bottom:2px solid black;font-size:110%;'> " + String(par[1]) + "</span>"+"<span style='color:blue;font-size:110%;'>:</span>"+"<span style='color:blue;border-bottom:2px solid white;font-size:110%;'>" + String(par[2]) + " </span>";
                     }
                     break;
                 }
